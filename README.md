@@ -2,11 +2,8 @@
 
 Wheelers is a decentralized, EV-integrated ride-hailing platform built to provide a cheaper, more convenient, and eco-friendly transportation system.
 
-This repository contains the frontend application built with **Next.js**.
 
----
-
-## ✨ Overview
+## Overview
 
 Transportation in many regions has become expensive, unreliable, and stressful. Wheelers aims to solve this by:
 
@@ -16,27 +13,24 @@ Transportation in many regions has become expensive, unreliable, and stressful. 
 
 This frontend serves as the user interface for interacting with the Wheelers ecosystem.
 
----
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - Next.js  
 - React  
 - TypeScript  
 - Tailwind CSS  
 
----
 
-## 📦 Features
+## Features
 
 - Ride booking interface  
 - Driver and rider interaction UI  
 - Responsive and modern design  
 - Scalable frontend architecture  
 
----
 
-## 🚀 Getting Started
+## Getting Started
 
 Clone the repository:
 
