@@ -1,0 +1,102 @@
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 70%;
+  }
+
+  33% {
+    border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  66% {
+    border-radius: 70% 30% 50% 50% / 40% 70% 30% 60%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 40px rgba(255, 92, 0, 0.12);
+  }
+
+  50% {
+    box-shadow:
+      0 0 80px rgba(255, 92, 0, 0.3),
+      0 0 120px rgba(255, 92, 0, 0.1);
+  }
+}
+
+@keyframes radar-expand {
+  0% {
+    transform: scale(0.05);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes radar-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blip-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}

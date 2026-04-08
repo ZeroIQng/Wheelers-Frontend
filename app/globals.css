@@ -1,0 +1,9 @@
+@import "../styles/globals.css";
+@import "../styles/animations.css";
+
+:root {
+  --font-dm-sans: "DM Sans", "Segoe UI", sans-serif;
+  --font-syne: "Syne", "Arial Black", sans-serif;
+  --font-space-mono: "Space Mono", "Courier New", monospace;
+  --font-playfair: "Times New Roman", serif;
+}
