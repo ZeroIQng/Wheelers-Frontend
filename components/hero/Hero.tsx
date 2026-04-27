@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="hero-grid-bg" />
 
       <div className="hero-inner">
-        <div>
+        <div className="hero-copy">
           <div className="hero-tag">
             <div className="hero-tag-dot" />
             Web3 Ride-Hailing Platform

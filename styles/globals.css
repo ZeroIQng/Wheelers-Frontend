@@ -222,7 +222,14 @@ button, input, textarea, select { font: inherit; }
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
+}
+
+.hero-copy {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  padding-top:24px;
 }
 
 .hero-tag {
@@ -1267,6 +1274,7 @@ button, input, textarea, select { font: inherit; }
   .nav-links { display:none; }
   .hero { padding-top:90px; padding-bottom:60px; }
   .hero-inner, .screens-grid, .defi-inner, .hiw-dark-inner, .who-cards, .footer-inner { grid-template-columns:1fr; }
+  .hero-copy { padding-top:0; }
   .who-d-card + .who-d-card { border-left:0; border-top: var(--bd); }
   .hero-right { height:620px; margin-top:12px; }
   .hero-device-stage { width:min(100%,440px); }
