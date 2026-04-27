@@ -61,38 +61,24 @@ export default function Hero() {
 
         <div className="hero-right">
           <div className="hero-glow-orb" />
+          <div className="hero-device-stage">
+            <div className="hero-glass-card right">
+              <div className="hero-card-head">
+                <div className="hero-card-dot" />
+                <span className="hero-card-caption mono">DRIVER FOUND</span>
+              </div>
+              <div className="hero-card-title syne">2 min away</div>
+              <div className="hero-card-body">Top rated | Toyota Camry</div>
+            </div>
 
-          <div className="hero-glass-card right">
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <div
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "var(--grn)",
-                  animation: "blink 1.5s ease-in-out infinite",
-                }}
-              />
-              <span className="hero-card-caption mono">DRIVER FOUND</span>
+            <div className="hero-glass-card left">
+              <div className="hero-card-caption mono">EARNED TODAY</div>
+              <div className="hero-card-value syne">+N12,400</div>
+              <div className="hero-card-body">Driver rewards settle in-app</div>
             </div>
-            <div className="syne" style={{ fontSize: 15, fontWeight: 800 }}>
-              2 min away
-            </div>
-            <div style={{ fontSize: 11, color: "var(--dmuted)", marginTop: 2 }}>
-              Top rated | Toyota Camry
-            </div>
+
+            <HeroPhone />
           </div>
-
-          <div className="hero-glass-card left">
-            <div className="hero-card-caption mono" style={{ marginBottom: 4 }}>
-              EARNED TODAY
-            </div>
-            <div className="syne" style={{ fontSize: 22, fontWeight: 800, color: "var(--grn)" }}>
-              +N12,400
-            </div>
-          </div>
-
-          <HeroPhone />
         </div>
       </div>
     </section>
