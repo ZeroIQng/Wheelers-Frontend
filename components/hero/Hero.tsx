@@ -24,7 +24,7 @@ export default function Hero() {
           </h1>
 
           <div className="hero-actions">
-            <Link href="#cta" className="btn-glow syne">
+            <Link href="/waitlist" className="btn-glow syne">
               Join the waitlist →
             </Link>
             <Link href="#how" className="btn-outline-light">

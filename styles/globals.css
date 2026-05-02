@@ -1,5 +1,5 @@
 /* ============================================================
-   WHELEERS — NEOBRUTALIST CREAM × ORANGE REWRITE
+   WHELEERS â€” NEOBRUTALIST CREAM Ã— ORANGE REWRITE
    Palette: cream bg, orange accent, black borders/shadows
    ============================================================ */
 
@@ -42,7 +42,7 @@
   --grn:     #00c48c;
 }
  
-/* ─── RESET ──────────────────────────────────────────────── */
+/* â”€â”€â”€ RESET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -59,16 +59,16 @@ a { color: inherit; }
 button, input, textarea, select { font: inherit; }
 ::selection { background: var(--or); color: #fff; }
  
-/* ─── UTILITY ────────────────────────────────────────────── */
+/* â”€â”€â”€ UTILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .syne     { font-family: var(--display); }
 .mono     { font-family: var(--mono); }
 .serif-it { font-family: var(--serif); font-style: italic; }
  
-/* ─── PAGE SHELL ──────────────────────────────────────────── */
+/* â”€â”€â”€ PAGE SHELL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .page-shell { background: var(--cream); }
  
-/* ─── NAV ─────────────────────────────────────────────────── */
-/* ─── NAV ─────────────────────────────────────────────────── */
+/* â”€â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .main-nav {
   position: fixed;
   top: 0;
@@ -178,7 +178,7 @@ button, input, textarea, select { font: inherit; }
 .mobile-nav-menu {
   display: none;
 }
-/* ─── TICKER ──────────────────────────────────────────────── */
+/* â”€â”€â”€ TICKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ticker-wrap {
   margin-top: 69px;
   overflow: hidden;
@@ -211,7 +211,7 @@ button, input, textarea, select { font: inherit; }
 }
 .t-or { color: #fff; }
  
-/* ─── HERO ────────────────────────────────────────────────── */
+/* â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero,
 .who-dark,
 .feat-dark,
@@ -289,8 +289,8 @@ button, input, textarea, select { font: inherit; }
   animation: blink 2s ease-in-out infinite;
 }
  
-/* ─── DISPLAY TYPE SYSTEM ─────────────────────────────────── */
-/* Hero H1 — impactful, not monstrous */
+/* â”€â”€â”€ DISPLAY TYPE SYSTEM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Hero H1 â€” impactful, not monstrous */
 .hero-h1 {
   font-family: var(--display);
   font-weight: 800;
@@ -311,7 +311,7 @@ button, input, textarea, select { font: inherit; }
   -webkit-text-stroke: 1.5px var(--bk);
 }
  
-/* Section headings — clean, proportional */
+/* Section headings â€” clean, proportional */
 .dark-h2,
 .section-h2 {
   font-family: var(--display);
@@ -386,7 +386,7 @@ button, input, textarea, select { font: inherit; }
   margin-bottom: 16px;
 }
  
-/* ─── HERO ACTIONS ────────────────────────────────────────── */
+/* â”€â”€â”€ HERO ACTIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-sub { display: none; }
  
 .hero-actions {
@@ -433,7 +433,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn-outline-light:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--bk); }
  
-/* ─── HERO STATS ──────────────────────────────────────────── */
+/* â”€â”€â”€ HERO STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-stat-row {
   display: flex;
   gap: 32px;
@@ -458,7 +458,7 @@ button, input, textarea, select { font: inherit; }
   text-transform: uppercase;
 }
  
-/* ─── HERO PHONE ──────────────────────────────────────────── */
+/* â”€â”€â”€ HERO PHONE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-right {
   position: relative;
   display: flex;
@@ -709,7 +709,7 @@ button, input, textarea, select { font: inherit; }
   font-family: var(--display); font-size: 16px; font-weight: 800; text-align: center;
 }
  
-/* ─── CAR SECTION ─────────────────────────────────────────── */
+/* â”€â”€â”€ CAR SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .car-section {
   position: relative;
   width: 100%;
@@ -817,7 +817,7 @@ button, input, textarea, select { font: inherit; }
 .ring-one  { width: 180px; height: 180px; left: 48px; bottom: 32px; }
 .ring-two  { width: 230px; height: 230px; right: 80px; top: 140px; animation-delay: -3.5s; }
  
-/* ─── WHO SECTION ─────────────────────────────────────────── */
+/* â”€â”€â”€ WHO SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .who-dark, .feat-dark, .hiw-dark { background: var(--cream); }
  
 .who-dark {
@@ -922,7 +922,7 @@ button, input, textarea, select { font: inherit; }
 }
 .who-d-cta:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--bk); }
  
-/* ─── FEATURES ────────────────────────────────────────────── */
+/* â”€â”€â”€ FEATURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .feat-dark {
   padding-bottom: 80px; 
   overflow: visible;
@@ -971,7 +971,7 @@ button, input, textarea, select { font: inherit; }
   color: #6a5040;
 }
  
-/* ─── HOW IT WORKS ────────────────────────────────────────── */
+/* â”€â”€â”€ HOW IT WORKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hiw-dark {
   padding-bottom: 120px;
   border-bottom: var(--bd);
@@ -1093,14 +1093,14 @@ button, input, textarea, select { font: inherit; }
   display: none;
 }
 
-/* ─── TRANSITION BAND ─────────────────────────────────────── */
+/* â”€â”€â”€ TRANSITION BAND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .transition-band {
   height: 5px;
   background: var(--bk);
   border-top: var(--bd);
 }
  
-/* ─── BUTTONS ─────────────────────────────────────────────── */
+/* â”€â”€â”€ BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .btn-or, .btn-white, .btn-white-ghost {
   display: inline-block;
   padding: 13px 26px;
@@ -1120,7 +1120,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn-or:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--bk); }
  
-/* ─── RADAR ───────────────────────────────────────────────── */
+/* â”€â”€â”€ RADAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .radar-wrap {
   position: relative;
   min-height: 80vh;
@@ -1297,7 +1297,7 @@ button, input, textarea, select { font: inherit; }
 }
 .radar-match-info { font-size: 12px; color: #6a5040; }
  
-/* ─── CTA ─────────────────────────────────────────────────── */
+/* â”€â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .cta-wrap {
   position: relative;
   overflow: hidden;
@@ -1425,7 +1425,7 @@ button, input, textarea, select { font: inherit; }
 .form-status.error   { color: #ffe1cc; }
 .form-status.success { color: #fff8ec; }
  
-/* ─── FOOTER ──────────────────────────────────────────────── */
+/* â”€â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .site-footer {
   padding: 48px 32px 28px;
   background: var(--bk);
@@ -1505,7 +1505,7 @@ button, input, textarea, select { font: inherit; }
 }
 .social-btn:hover { border-color: var(--or); color: var(--or); box-shadow: 3px 3px 0 var(--or); }
  
-/* ─── REVEAL ──────────────────────────────────────────────── */
+/* â”€â”€â”€ REVEAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -1514,7 +1514,360 @@ button, input, textarea, select { font: inherit; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
  
 
-/* ─── KEYFRAMES ───────────────────────────────────────────── */
+.waitlist-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 32px 48px 96px;
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.waitlist-page .hero-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.waitlist-nav,
+.waitlist-hero,
+.waitlist-form-section {
+  position: relative;
+  z-index: 2;
+}
+
+.waitlist-nav {
+  max-width: 1280px;
+  margin: 0 auto 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.waitlist-back-btn {
+  padding: 10px 18px;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream2);
+  box-shadow: var(--sh);
+  text-decoration: none;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.waitlist-hero {
+  margin-bottom: 42px;
+}
+
+.waitlist-title {
+  max-width: 900px;
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -3px;
+}
+
+.waitlist-title em {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: var(--or);
+}
+
+.waitlist-lead {
+  max-width: 620px;
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6a5040;
+}
+
+.waitlist-form {
+  border: var(--bd);
+  border-radius: var(--rd);
+  background: var(--cream2);
+  box-shadow: var(--sh-lg);
+  padding: 34px;
+}
+
+.waitlist-progress {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.waitlist-progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  color: #6a5040;
+}
+
+.waitlist-progress-top .mono {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.waitlist-progress-bar {
+  height: 14px;
+  border: var(--bd-thin);
+  border-radius: 999px;
+  background: var(--cream);
+  box-shadow: inset 2px 2px 0 rgba(13, 13, 13, 0.08);
+  overflow: hidden;
+}
+
+.waitlist-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--or), #ff8b43);
+  transition: width 0.2s ease;
+}
+
+.waitlist-step-panel {
+  margin-bottom: 24px;
+}
+
+.waitlist-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.waitlist-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.waitlist-field-full {
+  grid-column: 1 / -1;
+}
+
+.waitlist-field span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7060;
+}
+
+.waitlist-field input,
+.waitlist-field textarea {
+  width: 100%;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream);
+  padding: 14px 15px;
+  color: var(--bk);
+  outline: none;
+  box-shadow: 3px 3px 0 var(--bk);
+}
+
+.waitlist-field textarea {
+  resize: vertical;
+}
+
+.waitlist-question-stack {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.question-card {
+  border: var(--bd);
+  border-radius: var(--rd);
+  background: var(--cream);
+  padding: 24px;
+  box-shadow: var(--sh);
+}
+
+.question-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.question-number {
+  min-width: 38px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  background: var(--or3);
+  color: var(--or);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.question-card legend,
+.question-card h2 {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.question-card p {
+  margin-top: 8px;
+  color: #6a5040;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.waitlist-step-title {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.question-guidance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.question-guidance span {
+  display: inline-flex;
+  align-items: center;
+  border: var(--bd-thin);
+  border-radius: 999px;
+  background: var(--cream2);
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #6a5040;
+}
+
+.option-list {
+  display: grid;
+  gap: 10px;
+}
+
+.option-item,
+.optional-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  cursor: pointer;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  background: var(--cream2);
+  padding: 13px 14px;
+  transition: 0.15s ease;
+}
+
+.option-item input,
+.optional-check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fake-checkbox {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: var(--bd-thin);
+  border-radius: 3px;
+  background: var(--cream);
+  box-shadow: 2px 2px 0 var(--bk);
+}
+
+.option-item.selected,
+.option-item:hover,
+.optional-check:hover {
+  background: var(--or3);
+}
+
+.option-item input:checked + .fake-checkbox,
+.optional-check input:checked + .fake-checkbox {
+  background: var(--or);
+  box-shadow: inset 0 0 0 3px var(--cream), 2px 2px 0 var(--bk);
+}
+
+.option-item span:last-child,
+.optional-check span:last-child {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4f3b31;
+}
+
+.optional-check {
+  margin-top: 20px;
+  background: var(--cream);
+}
+
+.waitlist-status {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  font-weight: 700;
+}
+
+.waitlist-status.success {
+  background: #dff8eb;
+}
+
+.waitlist-status.error {
+  background: #ffe0dd;
+}
+
+.waitlist-submit {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.waitlist-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.waitlist-step-btn {
+  padding: 13px 20px;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream);
+  box-shadow: var(--sh);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.waitlist-step-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.waitlist-submit button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.waitlist-submit p {
+  max-width: 420px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6a5040;
+}
+
+/* â”€â”€â”€ KEYFRAMES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes ticker {
   0% {
     transform: translateX(0);
@@ -1630,8 +1983,8 @@ button, input, textarea, select { font: inherit; }
 }
 
 /* Large tablets / small laptops */
-/* ─── RESPONSIVE ──────────────────────────────────────────── */
-/* ─── RESPONSIVE ──────────────────────────────────────────── */
+/* â”€â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /* =========================
    TABLET / SMALL LAPTOP
@@ -1800,7 +2153,7 @@ button, input, textarea, select { font: inherit; }
 }
 
 /* =========================
-   MOBILE — BOLT CLEAN STYLE
+   MOBILE â€” BOLT CLEAN STYLE
 ========================= */
 @media (max-width: 768px) {
   body {
@@ -2456,7 +2809,8 @@ button, input, textarea, select { font: inherit; }
     padding: 16px 14px;
   }
 
-  .question-card legend {
+  .question-card legend,
+  .question-card h2 {
     font-size: 1rem;
     line-height: 1.25;
   }
@@ -2479,6 +2833,11 @@ button, input, textarea, select { font: inherit; }
     align-items: stretch;
   }
 
+  .waitlist-step-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   /* ================= FOOTER ================= */
 
   .site-footer {
@@ -2497,6 +2856,93 @@ button, input, textarea, select { font: inherit; }
   .footer-bottom {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .waitlist-page {
+    padding: 22px 16px 72px;
+  }
+
+  .waitlist-nav {
+    margin-bottom: 52px;
+  }
+
+  .waitlist-back-btn {
+    display: none;
+  }
+
+  .waitlist-title {
+    font-size: clamp(42px, 14vw, 62px);
+    letter-spacing: -2px;
+  }
+
+  .waitlist-lead {
+    font-size: 14px;
+  }
+
+  .waitlist-form {
+    padding: 18px;
+    box-shadow: var(--sh);
+  }
+
+  .waitlist-progress-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .waitlist-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .question-card {
+    padding: 18px 15px;
+  }
+
+  .question-top {
+    gap: 12px;
+  }
+
+  .question-card legend,
+  .question-card h2 {
+    font-size: 17px;
+  }
+
+  .question-card p {
+    font-size: 12.5px;
+  }
+
+  .option-item,
+  .optional-check {
+    padding: 12px;
+  }
+
+  .question-guidance span {
+    width: 100%;
+    border-radius: var(--rd-sm);
+  }
+
+  .option-item span:last-child,
+  .optional-check span:last-child {
+    font-size: 12.5px;
+  }
+
+  .waitlist-submit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .waitlist-step-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .waitlist-step-btn {
+    width: 100%;
+  }
+
+  .waitlist-submit .btn-glow {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -2693,3 +3139,436 @@ button, input, textarea, select { font: inherit; }
   }
 }
 
+/* ============================================================
+   WAITLIST PAGE â€” FINAL CLEAN OVERRIDES
+   Fixes invisible question titles, keeps cream/orange theme,
+   scopes everything to .waitlist-page so CTA forms are not affected.
+   ============================================================ */
+
+.waitlist-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 32px 48px 96px;
+  background: var(--cream);
+  color: var(--bk);
+  overflow-x: hidden;
+}
+
+.waitlist-page .hero-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.waitlist-page .waitlist-nav,
+.waitlist-page .waitlist-hero,
+.waitlist-page .waitlist-form-section {
+  position: relative;
+  z-index: 2;
+}
+
+.waitlist-page .waitlist-nav {
+  max-width: 1180px;
+  margin: 0 auto 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.waitlist-page .waitlist-back-btn {
+  padding: 10px 18px;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream2);
+  box-shadow: var(--sh);
+  color: var(--bk);
+  text-decoration: none;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.waitlist-page .waitlist-back-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--bk);
+}
+
+.waitlist-page .waitlist-hero {
+  max-width: 1080px;
+  margin: 0 auto 42px;
+}
+
+.waitlist-page .waitlist-title {
+  max-width: 900px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -3px;
+  color: var(--bk);
+}
+
+.waitlist-page .waitlist-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--or);
+}
+
+.waitlist-page .waitlist-lead {
+  max-width: 620px;
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6a5040;
+}
+
+.waitlist-page .waitlist-form-section {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.waitlist-page .waitlist-form {
+  display: grid;
+  gap: 22px;
+  width: 100%;
+  border: var(--bd);
+  border-radius: var(--rd);
+  background: var(--cream2);
+  box-shadow: var(--sh-lg);
+  padding: 34px;
+}
+
+.waitlist-page .waitlist-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 6px;
+}
+
+.waitlist-page .waitlist-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.waitlist-page .waitlist-field-full {
+  grid-column: 1 / -1;
+}
+
+.waitlist-page .waitlist-field span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7060 !important;
+}
+
+.waitlist-page .required-mark {
+  color: #d72638 !important;
+}
+
+.waitlist-page .waitlist-field input,
+.waitlist-page .waitlist-field textarea {
+  width: 100%;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream);
+  padding: 14px 15px;
+  color: var(--bk);
+  outline: none;
+  box-shadow: 3px 3px 0 var(--bk);
+}
+
+.waitlist-page .waitlist-field input:focus,
+.waitlist-page .waitlist-field textarea:focus {
+  outline: 2px solid var(--or);
+  outline-offset: 2px;
+}
+
+.waitlist-page .waitlist-field textarea {
+  resize: vertical;
+}
+
+.waitlist-page .waitlist-question-stack {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 2px;
+}
+
+.waitlist-page .question-card {
+  border: var(--bd);
+  border-radius: var(--rd);
+  background: var(--cream);
+  padding: 24px;
+  box-shadow: var(--sh);
+}
+
+.waitlist-page .question-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.waitlist-page .question-number {
+  min-width: 38px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  background: var(--or3);
+  color: var(--or) !important;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.waitlist-page .question-card legend {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--bk) !important;
+}
+
+.waitlist-page .question-card p {
+  margin: 8px 0 0;
+  color: #6a5040 !important;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.waitlist-page .option-list {
+  display: grid;
+  gap: 10px;
+}
+
+.waitlist-page .option-item,
+.waitlist-page .optional-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  cursor: pointer;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  background: var(--cream2);
+  padding: 13px 14px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.waitlist-page .option-item:hover,
+.waitlist-page .option-item.selected,
+.waitlist-page .optional-check:hover {
+  background: var(--or3);
+}
+
+.waitlist-page .option-item input,
+.waitlist-page .optional-check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.waitlist-page .fake-checkbox {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: var(--bd-thin);
+  border-radius: 3px;
+  background: var(--cream);
+  box-shadow: 2px 2px 0 var(--bk);
+}
+
+.waitlist-page .option-item input:checked + .fake-checkbox,
+.waitlist-page .optional-check input:checked + .fake-checkbox {
+  border-color: var(--or);
+  box-shadow: 2px 2px 0 var(--bk);
+}
+
+.waitlist-page .option-item input:checked + .fake-checkbox::after,
+.waitlist-page .optional-check input:checked + .fake-checkbox::after {
+  content: "✓";
+  color: var(--or);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.waitlist-page .option-item span:last-child,
+.waitlist-page .optional-check span:last-child {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4f3b31 !important;
+}
+
+.waitlist-page .optional-check {
+  margin-top: 0;
+  background: var(--cream);
+}
+
+.waitlist-page .waitlist-status {
+  margin-top: 0;
+  padding: 14px 16px;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  color: var(--bk);
+  font-weight: 700;
+}
+
+.waitlist-page .waitlist-status.success {
+  background: #dff8eb;
+}
+
+.waitlist-page .waitlist-status.error {
+  background: #ffe0dd;
+}
+
+.waitlist-page .waitlist-submit {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.waitlist-page .waitlist-submit button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.waitlist-page .waitlist-submit p {
+  max-width: 420px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6a5040;
+}
+
+.waitlist-page .question-thought-field {
+  margin-top: 18px;
+}
+
+.waitlist-page .question-thought-field textarea {
+  min-height: 120px;
+}
+
+.waitlist-page .word-counter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+  color: #8a7060;
+}
+
+.waitlist-page .word-counter.limit {
+  color: var(--or);
+}
+
+@media (max-width: 768px) {
+  .waitlist-page {
+    padding: 22px 16px 72px;
+  }
+
+  .waitlist-page .waitlist-nav {
+    margin-bottom: 52px;
+  }
+
+  .waitlist-page .waitlist-back-btn {
+    display: none;
+  }
+
+  .waitlist-page .waitlist-title {
+    font-size: clamp(42px, 14vw, 62px);
+    letter-spacing: -2px;
+  }
+
+  .waitlist-page .waitlist-lead {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .waitlist-page .waitlist-form {
+    padding: 18px;
+    box-shadow: var(--sh);
+  }
+
+  .waitlist-page .waitlist-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .waitlist-page .question-card {
+    padding: 18px 15px;
+  }
+
+  .waitlist-page .question-top {
+    gap: 12px;
+  }
+
+  .waitlist-page .question-card legend {
+    font-size: 17px;
+  }
+
+  .waitlist-page .question-card p {
+    font-size: 12.5px;
+  }
+
+  .waitlist-page .option-item,
+  .waitlist-page .optional-check {
+    padding: 12px;
+  }
+
+  .waitlist-page .option-item span:last-child,
+  .waitlist-page .optional-check span:last-child {
+    font-size: 12.5px;
+  }
+
+  .waitlist-page .waitlist-submit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .waitlist-page .waitlist-submit .btn-glow {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .waitlist-page {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .waitlist-page .waitlist-title {
+    font-size: clamp(38px, 13vw, 52px);
+  }
+
+  .waitlist-page .waitlist-form {
+    padding: 15px;
+  }
+
+  .waitlist-page .question-card {
+    padding: 16px 13px;
+  }
+
+  .waitlist-page .question-number {
+    min-width: 34px;
+    height: 30px;
+    font-size: 9px;
+  }
+}

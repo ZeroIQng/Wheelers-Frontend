@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 /* ─── keyframe injection ─── */
@@ -218,7 +219,8 @@ export default function HeroPhone() {
         </div>
 
         {/* ── CTA button ── */}
-        <button
+        <Link
+          href="/waitlist"
           style={{
             marginTop: 28,
             background: "#fff",
@@ -233,10 +235,14 @@ export default function HeroPhone() {
             cursor: "pointer",
             boxShadow: "3px 3px 0 #0D0D0D",
             animation: "btn-pulse 2.5s ease-in-out infinite",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
           }}
         >
           Join the waitlist ↗
-        </button>
+        </Link>
 
         {/* ── dashed wave decoration ── */}
         <svg

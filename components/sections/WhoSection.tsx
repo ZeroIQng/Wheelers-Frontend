@@ -61,7 +61,7 @@ export default function WhoSection() {
                 ))}
               </div>
 
-              <Link href="#cta" className="who-d-cta">
+              <Link href="/waitlist" className="who-d-cta">
                 {card.cta}
               </Link>
             </div>

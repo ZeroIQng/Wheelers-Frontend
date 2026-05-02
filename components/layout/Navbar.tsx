@@ -33,7 +33,7 @@ export default function Navbar() {
           <Link href="#how">How it works</Link>
         </div>
 
-        <Link href="#cta" className="nav-cta-btn syne">
+        <Link href="/waitlist" className="nav-cta-btn syne">
           Join the waitlist
         </Link>
 

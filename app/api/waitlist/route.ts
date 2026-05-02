@@ -6,6 +6,7 @@ export const runtime = "nodejs";
 type WaitlistPayload = {
   name?: unknown;
   email?: unknown;
+  phone?: unknown;
   transportChoice?: unknown;
   priceImpact?: unknown;
   rideHailingPain?: unknown;
@@ -13,11 +14,16 @@ type WaitlistPayload = {
   ikejaLekkiPrice?: unknown;
   rideSharingBehavior?: unknown;
   groupRideAcceptance?: unknown;
+  optionalFeedback?: unknown;
+  allowContact?: unknown;
 };
 
-const requiredFields = [
+const requiredTextFields = [
   "name",
   "email",
+] as const;
+
+const requiredSelectionFields = [
   "transportChoice",
   "priceImpact",
   "rideHailingPain",
@@ -34,11 +40,19 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function isNonEmptyStringArray(value: unknown): value is string[] {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((item) => isNonEmptyString(item))
+  );
+}
+
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function readField(payload: WaitlistPayload, field: (typeof requiredFields)[number]) {
+function readField(payload: WaitlistPayload, field: (typeof requiredTextFields)[number]) {
   const value = payload[field];
 
   if (!isNonEmptyString(value)) {
@@ -46,6 +60,33 @@ function readField(payload: WaitlistPayload, field: (typeof requiredFields)[numb
   }
 
   return value.trim();
+}
+
+function readSelectionField(
+  payload: WaitlistPayload,
+  field: (typeof requiredSelectionFields)[number],
+) {
+  const value = payload[field];
+
+  if (!isNonEmptyStringArray(value)) {
+    return null;
+  }
+
+  return value.map((item) => item.trim());
+}
+
+function readOptionalField(payload: WaitlistPayload, field: "phone" | "optionalFeedback") {
+  const value = payload[field];
+
+  if (!isNonEmptyString(value)) {
+    return "";
+  }
+
+  return value.trim();
+}
+
+function readBooleanField(payload: WaitlistPayload, field: "allowContact") {
+  return payload[field] === true;
 }
 
 export async function POST(request: Request) {
@@ -57,7 +98,7 @@ export async function POST(request: Request) {
     return Response.json({ message: "Invalid request body." }, { status: 400 });
   }
 
-  for (const field of requiredFields) {
+  for (const field of requiredTextFields) {
     if (!isNonEmptyString(payload[field])) {
       return Response.json(
         { message: `Please complete the ${field} field.` },
@@ -66,15 +107,34 @@ export async function POST(request: Request) {
     }
   }
 
+  for (const field of requiredSelectionFields) {
+    if (!isNonEmptyStringArray(payload[field])) {
+      return Response.json(
+        { message: `Please complete the ${field} field.` },
+        { status: 400 },
+      );
+    }
+  }
+
+  if (payload.allowContact !== true) {
+    return Response.json(
+      { message: "Please tick the contact consent checkbox before submitting." },
+      { status: 400 },
+    );
+  }
+
   const name = readField(payload, "name");
   const emailValue = readField(payload, "email");
-  const transportChoice = readField(payload, "transportChoice");
-  const priceImpact = readField(payload, "priceImpact");
-  const rideHailingPain = readField(payload, "rideHailingPain");
-  const evTrustTradeoff = readField(payload, "evTrustTradeoff");
-  const ikejaLekkiPrice = readField(payload, "ikejaLekkiPrice");
-  const rideSharingBehavior = readField(payload, "rideSharingBehavior");
-  const groupRideAcceptance = readField(payload, "groupRideAcceptance");
+  const phone = readOptionalField(payload, "phone");
+  const transportChoice = readSelectionField(payload, "transportChoice");
+  const priceImpact = readSelectionField(payload, "priceImpact");
+  const rideHailingPain = readSelectionField(payload, "rideHailingPain");
+  const evTrustTradeoff = readSelectionField(payload, "evTrustTradeoff");
+  const ikejaLekkiPrice = readSelectionField(payload, "ikejaLekkiPrice");
+  const rideSharingBehavior = readSelectionField(payload, "rideSharingBehavior");
+  const groupRideAcceptance = readSelectionField(payload, "groupRideAcceptance");
+  const optionalFeedback = readOptionalField(payload, "optionalFeedback");
+  const allowContact = readBooleanField(payload, "allowContact");
 
   if (
     !name ||
@@ -99,6 +159,7 @@ export async function POST(request: Request) {
   const submission = {
     name,
     email,
+    phone,
     transportChoice,
     priceImpact,
     rideHailingPain,
@@ -106,6 +167,8 @@ export async function POST(request: Request) {
     ikejaLekkiPrice,
     rideSharingBehavior,
     groupRideAcceptance,
+    optionalFeedback,
+    allowContact,
     submittedAt: new Date().toISOString(),
   };
 
