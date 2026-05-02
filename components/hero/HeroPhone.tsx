@@ -235,7 +235,7 @@ export default function HeroPhone() {
             animation: "btn-pulse 2.5s ease-in-out infinite",
           }}
         >
-          Get Started ↗
+          Join the waitlist ↗
         </button>
 
         {/* ── dashed wave decoration ── */}

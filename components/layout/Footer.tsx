@@ -3,7 +3,7 @@ import Link from "next/link";
 const footerColumns = [
   {
     title: "Product",
-    links: ["For Riders", "For Drivers", "$WHL Token", "DeFi Features", "Schedule Rides"],
+    links: ["For Riders", "For Drivers", "DeFi Features", "Schedule Rides"],
   },
   {
     title: "Company",

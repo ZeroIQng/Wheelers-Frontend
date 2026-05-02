@@ -25,12 +25,12 @@ export default function Navbar() {
       <div className="nav-links">
         <Link href="#riders">For Riders</Link>
         <Link href="#drivers">For Drivers</Link>
-        <Link href="#token">$WHL Token</Link>
+        {/* <Link href="#token">$WHL Token</Link> */}
         <Link href="#how">How it works</Link>
       </div>
 
       <Link href="#cta" className="nav-cta-btn syne">
-        Get the App
+        Join the waitlist
       </Link>
     </nav>
   );

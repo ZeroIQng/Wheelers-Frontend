@@ -2,35 +2,35 @@ const featureRows = [
   [
     {
       id: "01",
-      title: "30-Second Match",
-      body: "Radar-powered driver discovery connects you to the nearest verified driver in under 30 seconds. Every time.",
+      title: "Group Ride Booking",
+      body: "Split a ride with friends, colleagues, or strangers heading the same way. One booking, multiple seats, shared cost.",
     },
     {
       id: "02",
-      title: "KYC-Verified Safety",
-      body: "Every driver passes identity and document verification before taking their first trip. Safety is non-negotiable.",
+      title: "Instant Seat Matching",
+      body: "Radar finds riders going your direction in real time. Hop into a moving trip or start one — no waiting around.",
     },
     {
       id: "03",
-      title: "$WHL Token Rewards",
-      body: "Earn governance tokens on every ride. Stake them, vote on the platform's future, or trade them freely.",
+      title: "Shared Fare Splitting",
+      body: "Cost splits automatically between all passengers. Everyone pays their share. No awkward money conversations.",
     },
   ],
   [
     {
       id: "04",
-      title: "Live Navigation",
-      body: "Turn-by-turn routing for drivers. Real-time ETA sharing for riders. Everyone stays in the loop.",
+      title: "Scheduled Group Rides",
+      body: "Plan a ride in advance for your team, event, or daily commute. Everyone gets notified, everyone shows up.",
     },
     {
       id: "05",
-      title: "Emergency SOS",
-      body: "One tap shares live location with emergency contacts and dispatches alerts instantly. Peace of mind, always on.",
+      title: "Verified Drivers & Riders",
+      body: "Every driver and rider on the platform is identity-verified before their first trip. Safe seats, every time.",
     },
     {
       id: "06",
-      title: "Schedule Rides",
-      body: "Book future rides. Set recurring commutes. Wheleers works around your schedule, not the other way around.",
+      title: "Crypto Payments",
+      body: "Pay with USDT or local currency. Seamless NGN-to-USDT conversion built in — no bank drama, just ride.",
     },
   ],
 ];

@@ -30,14 +30,14 @@ export default function Hero() {
 
           <div className="hero-actions">
             <Link href="#cta" className="btn-glow syne">
-              Get Started Free -&gt;
+              Join the waitlist -&gt;
             </Link>
             <Link href="#how" className="btn-outline-light">
               How it works
             </Link>
           </div>
 
-          <div className="hero-stat-row">
+          {/* <div className="hero-stat-row">
             <div className="hero-stat-d">
               <strong>
                 50K<span className="t-or">+</span>
@@ -56,7 +56,7 @@ export default function Hero() {
               </strong>
               <p>Earnings paid out</p>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="hero-right">
