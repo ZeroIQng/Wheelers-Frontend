@@ -1381,17 +1381,26 @@ button, input, textarea, select { font: inherit; }
 
 @media (max-width: 768px) {
   .main-nav {
-    padding-left: 16px;
-    padding-right: 16px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .nav-logo { min-width: 0; }
-  .nav-brand { font-size: 15px; }
-  .nav-cta-btn {
-    width: 100%;
-    justify-content: center;
     padding: 14px 16px;
+    flex-wrap: nowrap;    
+    gap: 0;
+    justify-content: space-between;
+  }
+   .nav-logo {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+ 
+  .nav-brand {
+    font-size: 15px;
+  }
+  .nav-cta-btn {
+    width: auto;
+    flex-shrink: 0;
+    padding: 9px 16px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
   }
   .ticker-item {
     padding: 0 22px;
