@@ -9,7 +9,7 @@ const cards = [
       "Book in seconds. Every trip earns $WHL tokens, building your stake in the network that moves you. Transparent pricing. No surge surprises.",
     perks: [
       "Instant 30-second driver match",
-      "Earn tokens on every trip",
+      // "Earn tokens on every trip",
       "Live GPS tracking throughout",
       "Pay with wallet or card",
     ],
@@ -24,7 +24,7 @@ const cards = [
     perks: [
       "Industry-lowest commission rate",
       "Instant wallet withdrawals",
-      "$WHL token bonuses",
+      // "$WHL token bonuses",
       "Referral income stream",
     ],
     cta: "Start driving ->",
