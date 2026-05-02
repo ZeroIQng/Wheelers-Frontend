@@ -1,7 +1,18 @@
-import { mkdir, appendFile } from "node:fs/promises";
-import path from "node:path";
+import { insertWaitlistSubmission } from "@/lib/waitlist-db";
 
 export const runtime = "nodejs";
+
+const requiredSelectionFields = [
+  "transportChoice",
+  "priceImpact",
+  "rideHailingPain",
+  "evTrustTradeoff",
+  "ikejaLekkiPrice",
+  "rideSharingBehavior",
+  "groupRideAcceptance",
+] as const;
+
+type QuestionId = (typeof requiredSelectionFields)[number];
 
 type WaitlistPayload = {
   name?: unknown;
@@ -14,30 +25,17 @@ type WaitlistPayload = {
   ikejaLekkiPrice?: unknown;
   rideSharingBehavior?: unknown;
   groupRideAcceptance?: unknown;
+  questionThoughts?: unknown;
   optionalFeedback?: unknown;
   allowContact?: unknown;
 };
 
-const requiredTextFields = [
-  "name",
-  "email",
-] as const;
-
-const requiredSelectionFields = [
-  "transportChoice",
-  "priceImpact",
-  "rideHailingPain",
-  "evTrustTradeoff",
-  "ikejaLekkiPrice",
-  "rideSharingBehavior",
-  "groupRideAcceptance",
-] as const;
-
-const storagePath =
-  process.env.WAITLIST_STORAGE_PATH ?? path.join("/tmp", "wheelers-waitlist.ndjson");
-
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
 }
 
 function isNonEmptyStringArray(value: unknown): value is string[] {
@@ -52,7 +50,7 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function readField(payload: WaitlistPayload, field: (typeof requiredTextFields)[number]) {
+function readRequiredTextField(payload: WaitlistPayload, field: "name" | "email") {
   const value = payload[field];
 
   if (!isNonEmptyString(value)) {
@@ -62,20 +60,10 @@ function readField(payload: WaitlistPayload, field: (typeof requiredTextFields)[
   return value.trim();
 }
 
-function readSelectionField(
+function readOptionalTextField(
   payload: WaitlistPayload,
-  field: (typeof requiredSelectionFields)[number],
+  field: "phone" | "optionalFeedback",
 ) {
-  const value = payload[field];
-
-  if (!isNonEmptyStringArray(value)) {
-    return null;
-  }
-
-  return value.map((item) => item.trim());
-}
-
-function readOptionalField(payload: WaitlistPayload, field: "phone" | "optionalFeedback") {
   const value = payload[field];
 
   if (!isNonEmptyString(value)) {
@@ -85,8 +73,40 @@ function readOptionalField(payload: WaitlistPayload, field: "phone" | "optionalF
   return value.trim();
 }
 
-function readBooleanField(payload: WaitlistPayload, field: "allowContact") {
-  return payload[field] === true;
+function readSelectionField(payload: WaitlistPayload, field: QuestionId) {
+  const value = payload[field];
+
+  if (!isNonEmptyStringArray(value)) {
+    return null;
+  }
+
+  return value.map((item) => item.trim());
+}
+
+function readQuestionThoughts(payload: WaitlistPayload) {
+  const rawThoughts = payload.questionThoughts;
+  const thoughts: Record<QuestionId, string> = {
+    transportChoice: "",
+    priceImpact: "",
+    rideHailingPain: "",
+    evTrustTradeoff: "",
+    ikejaLekkiPrice: "",
+    rideSharingBehavior: "",
+    groupRideAcceptance: "",
+  };
+
+  if (!rawThoughts || typeof rawThoughts !== "object" || Array.isArray(rawThoughts)) {
+    return thoughts;
+  }
+
+  const thoughtRecord = rawThoughts as Record<string, unknown>;
+
+  for (const field of requiredSelectionFields) {
+    const value = thoughtRecord[field];
+    thoughts[field] = isString(value) ? value.trim() : "";
+  }
+
+  return thoughts;
 }
 
 export async function POST(request: Request) {
@@ -98,17 +118,28 @@ export async function POST(request: Request) {
     return Response.json({ message: "Invalid request body." }, { status: 400 });
   }
 
-  for (const field of requiredTextFields) {
-    if (!isNonEmptyString(payload[field])) {
-      return Response.json(
-        { message: `Please complete the ${field} field.` },
-        { status: 400 },
-      );
-    }
+  const name = readRequiredTextField(payload, "name");
+  const emailValue = readRequiredTextField(payload, "email");
+
+  if (!name || !emailValue) {
+    return Response.json(
+      { message: "Please enter your name and email before submitting." },
+      { status: 400 },
+    );
   }
 
+  const email = emailValue.toLowerCase();
+
+  if (!isValidEmail(email)) {
+    return Response.json({ message: "Please enter a valid email." }, { status: 400 });
+  }
+
+  const selections = Object.fromEntries(
+    requiredSelectionFields.map((field) => [field, readSelectionField(payload, field)]),
+  ) as Record<QuestionId, string[] | null>;
+
   for (const field of requiredSelectionFields) {
-    if (!isNonEmptyStringArray(payload[field])) {
+    if (!selections[field]) {
       return Response.json(
         { message: `Please complete the ${field} field.` },
         { status: 400 },
@@ -123,59 +154,29 @@ export async function POST(request: Request) {
     );
   }
 
-  const name = readField(payload, "name");
-  const emailValue = readField(payload, "email");
-  const phone = readOptionalField(payload, "phone");
-  const transportChoice = readSelectionField(payload, "transportChoice");
-  const priceImpact = readSelectionField(payload, "priceImpact");
-  const rideHailingPain = readSelectionField(payload, "rideHailingPain");
-  const evTrustTradeoff = readSelectionField(payload, "evTrustTradeoff");
-  const ikejaLekkiPrice = readSelectionField(payload, "ikejaLekkiPrice");
-  const rideSharingBehavior = readSelectionField(payload, "rideSharingBehavior");
-  const groupRideAcceptance = readSelectionField(payload, "groupRideAcceptance");
-  const optionalFeedback = readOptionalField(payload, "optionalFeedback");
-  const allowContact = readBooleanField(payload, "allowContact");
-
-  if (
-    !name ||
-    !emailValue ||
-    !transportChoice ||
-    !priceImpact ||
-    !rideHailingPain ||
-    !evTrustTradeoff ||
-    !ikejaLekkiPrice ||
-    !rideSharingBehavior ||
-    !groupRideAcceptance
-  ) {
-    return Response.json({ message: "Please complete the form." }, { status: 400 });
-  }
-
-  const email = emailValue.toLowerCase();
-
-  if (!isValidEmail(email)) {
-    return Response.json({ message: "Please enter a valid email." }, { status: 400 });
-  }
-
-  const submission = {
-    name,
-    email,
-    phone,
-    transportChoice,
-    priceImpact,
-    rideHailingPain,
-    evTrustTradeoff,
-    ikejaLekkiPrice,
-    rideSharingBehavior,
-    groupRideAcceptance,
-    optionalFeedback,
-    allowContact,
-    submittedAt: new Date().toISOString(),
-  };
+  const phone = readOptionalTextField(payload, "phone");
+  const optionalFeedback = readOptionalTextField(payload, "optionalFeedback");
+  const questionThoughts = readQuestionThoughts(payload);
 
   try {
-    await mkdir(path.dirname(storagePath), { recursive: true });
-    await appendFile(storagePath, `${JSON.stringify(submission)}\n`, "utf8");
-  } catch {
+    await insertWaitlistSubmission({
+      name,
+      email,
+      phone,
+      transportChoice: selections.transportChoice as string[],
+      priceImpact: selections.priceImpact as string[],
+      rideHailingPain: selections.rideHailingPain as string[],
+      evTrustTradeoff: selections.evTrustTradeoff as string[],
+      ikejaLekkiPrice: selections.ikejaLekkiPrice as string[],
+      rideSharingBehavior: selections.rideSharingBehavior as string[],
+      groupRideAcceptance: selections.groupRideAcceptance as string[],
+      questionThoughts,
+      optionalFeedback,
+      allowContact: true,
+    });
+  } catch (error) {
+    console.error("waitlist insert failed", error);
+
     return Response.json(
       { message: "Your response could not be saved right now." },
       { status: 500 },
