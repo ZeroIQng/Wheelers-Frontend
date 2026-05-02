@@ -23,40 +23,14 @@ export default function Hero() {
             <span className="hollow">A PIECE.</span>
           </h1>
 
-          <p className="hero-sub">
-            The first decentralized ride-hailing platform where every trip earns you{" "}
-            <strong>real ownership.</strong> Not a passenger, a stakeholder.
-          </p>
-
           <div className="hero-actions">
             <Link href="#cta" className="btn-glow syne">
-              Join the waitlist -&gt;
+              Join the waitlist →
             </Link>
             <Link href="#how" className="btn-outline-light">
               How it works
             </Link>
           </div>
-
-          {/* <div className="hero-stat-row">
-            <div className="hero-stat-d">
-              <strong>
-                50K<span className="t-or">+</span>
-              </strong>
-              <p>Riders onboard</p>
-            </div>
-            <div className="hero-stat-d">
-              <strong>
-                8K<span className="t-or">+</span>
-              </strong>
-              <p>Active drivers</p>
-            </div>
-            <div className="hero-stat-d">
-              <strong>
-                $2.1<span className="t-or">M</span>
-              </strong>
-              <p>Earnings paid out</p>
-            </div>
-          </div> */}
         </div>
 
         <div className="hero-right">
