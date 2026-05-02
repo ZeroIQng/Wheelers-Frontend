@@ -1,20 +1,12 @@
 "use client";
 
+import type { WaitlistQuestionId } from "@/lib/waitlist";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 
 const MAX_WORDS = 250;
 
-type QuestionId =
-  | "transportChoice"
-  | "priceImpact"
-  | "rideHailingPain"
-  | "evTrustTradeoff"
-  | "ikejaLekkiPrice"
-  | "rideSharingBehavior"
-  | "groupRideAcceptance";
-
-type QuestionThoughts = Record<QuestionId, string>;
+type QuestionThoughts = Record<WaitlistQuestionId, string>;
 
 type FormState = {
   name: string;
@@ -33,7 +25,7 @@ type FormState = {
 };
 
 type Question = {
-  id: QuestionId;
+  id: WaitlistQuestionId;
   number: string;
   title: string;
   prompt: string;
@@ -197,6 +189,10 @@ function requiredLabel(text: string) {
   );
 }
 
+function findFirstIncompleteSection(form: FormState) {
+  return questions.find((question) => form[question.id].length === 0) ?? null;
+}
+
 export default function WaitlistPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitting, setSubmitting] = useState(false);
@@ -232,7 +228,7 @@ export default function WaitlistPage() {
     }));
   }
 
-  function updateQuestionThought(field: QuestionId, value: string) {
+  function updateQuestionThought(field: WaitlistQuestionId, value: string) {
     const limitedValue = limitToWords(value, MAX_WORDS);
 
     setForm((current) => ({
@@ -244,7 +240,7 @@ export default function WaitlistPage() {
     }));
   }
 
-  function toggleOption(field: QuestionId, option: string) {
+  function toggleOption(field: WaitlistQuestionId, option: string) {
     setForm((current) => {
       const selectedOptions = current[field];
       const alreadySelected = selectedOptions.includes(option);
@@ -280,6 +276,16 @@ export default function WaitlistPage() {
       setStatus({
         type: "error",
         message: "Please tick the contact consent checkbox before submitting.",
+      });
+      return;
+    }
+
+    const incompleteSection = findFirstIncompleteSection(form);
+
+    if (incompleteSection) {
+      setStatus({
+        type: "error",
+        message: `Please complete the ${incompleteSection.title} section before submitting.`,
       });
       return;
     }

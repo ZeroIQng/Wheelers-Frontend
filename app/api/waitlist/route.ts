@@ -1,18 +1,11 @@
 import { insertWaitlistSubmission } from "@/lib/waitlist-db";
+import {
+  waitlistQuestionIds,
+  waitlistQuestionLabels,
+  type WaitlistQuestionId,
+} from "@/lib/waitlist";
 
 export const runtime = "nodejs";
-
-const requiredSelectionFields = [
-  "transportChoice",
-  "priceImpact",
-  "rideHailingPain",
-  "evTrustTradeoff",
-  "ikejaLekkiPrice",
-  "rideSharingBehavior",
-  "groupRideAcceptance",
-] as const;
-
-type QuestionId = (typeof requiredSelectionFields)[number];
 
 type WaitlistPayload = {
   name?: unknown;
@@ -73,7 +66,7 @@ function readOptionalTextField(
   return value.trim();
 }
 
-function readSelectionField(payload: WaitlistPayload, field: QuestionId) {
+function readSelectionField(payload: WaitlistPayload, field: WaitlistQuestionId) {
   const value = payload[field];
 
   if (!isNonEmptyStringArray(value)) {
@@ -85,7 +78,7 @@ function readSelectionField(payload: WaitlistPayload, field: QuestionId) {
 
 function readQuestionThoughts(payload: WaitlistPayload) {
   const rawThoughts = payload.questionThoughts;
-  const thoughts: Record<QuestionId, string> = {
+  const thoughts: Record<WaitlistQuestionId, string> = {
     transportChoice: "",
     priceImpact: "",
     rideHailingPain: "",
@@ -101,7 +94,7 @@ function readQuestionThoughts(payload: WaitlistPayload) {
 
   const thoughtRecord = rawThoughts as Record<string, unknown>;
 
-  for (const field of requiredSelectionFields) {
+  for (const field of waitlistQuestionIds) {
     const value = thoughtRecord[field];
     thoughts[field] = isString(value) ? value.trim() : "";
   }
@@ -135,13 +128,15 @@ export async function POST(request: Request) {
   }
 
   const selections = Object.fromEntries(
-    requiredSelectionFields.map((field) => [field, readSelectionField(payload, field)]),
-  ) as Record<QuestionId, string[] | null>;
+    waitlistQuestionIds.map((field) => [field, readSelectionField(payload, field)]),
+  ) as Record<WaitlistQuestionId, string[] | null>;
 
-  for (const field of requiredSelectionFields) {
+  for (const field of waitlistQuestionIds) {
     if (!selections[field]) {
       return Response.json(
-        { message: `Please complete the ${field} field.` },
+        {
+          message: `Please complete the ${waitlistQuestionLabels[field]} section before submitting.`,
+        },
         { status: 400 },
       );
     }
