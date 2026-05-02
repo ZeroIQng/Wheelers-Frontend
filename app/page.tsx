@@ -14,13 +14,14 @@ import WhoSection from "@/components/sections/WhoSection";
 
 export default function HomePage() {
   useEffect(() => {
+    // In your useEffect, change threshold from 0.12 to 0.05:
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) entry.target.classList.add("visible");
         });
       },
-      { threshold: 0.12 },
+      { threshold: 0.05 }, 
     );
 
     const nodes = document.querySelectorAll(".reveal");

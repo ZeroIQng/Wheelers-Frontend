@@ -13,7 +13,7 @@ const cards = [
       "Live GPS tracking throughout",
       "Pay with wallet or card",
     ],
-    cta: "Get the app ->",
+    cta: "Start Riding  ->",
   },
   {
     id: "02",

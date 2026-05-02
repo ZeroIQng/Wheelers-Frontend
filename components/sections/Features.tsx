@@ -39,7 +39,7 @@ export default function Features() {
   return (
     <section className="feat-dark" id="features">
       <div className="feat-dark-inner section-inner">
-        <div className="reveal feat-intro">
+       <div className="feat-intro">
           <div className="section-eyebrow">Platform features</div>
           <h2 className="dark-h2">
             Built for

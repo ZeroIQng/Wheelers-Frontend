@@ -1,26 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 const steps = [
   {
     title: "Choose your role",
-    body: "Sign up as a rider or driver. Connect your Web3 wallet or use traditional login, your choice, no pressure.",
+    body: "Pick whether you want to ride or drive. One tap, then hit Continue.",
+    img: "/hiw-1.png",
   },
   {
-    title: "Verify your identity",
-    body: "Quick KYC in under 3 minutes. Phone verification and ID check keeps the platform safe for everyone.",
+    title: "See your city",
+    body: "Your home screen loads with a live map, nearby drivers, and your ride history ready to go.",
+    img: "/hiw-2.png",
   },
   {
-    title: "Book or go online",
-    body: "Riders set a destination and get matched instantly. Drivers toggle online and jobs come to them.",
+    title: "Find your ride",
+    body: "Search your destination, pick a ride type and see the price and ETA upfront.",
+    img: "/hiw-3.png",
   },
   {
-    title: "Earn ownership",
-    body: "Every trip earns $WHL tokens. Accumulate stake. Vote on the platform. Own a piece of the future.",
+    title: "Driver matched",
+    body: "Get matched with a verified driver and track your ride in real time.",
+    img: "/hiw-4.png",
   },
 ];
-
 export default function HowItWorks() {
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -36,7 +38,7 @@ export default function HowItWorks() {
     <section className="hiw-dark" id="how">
       <div className="hiw-dark-inner section-inner">
         <div>
-          <div className="reveal" style={{ marginBottom: 40 }}>
+          <div style={{ marginBottom: 40 }}>
             <div className="section-eyebrow">How it works</div>
             <h2 className="dark-h2">
               From signup
@@ -50,13 +52,19 @@ export default function HowItWorks() {
           <div className="hiw-steps">
             {steps.map((step, index) => (
               <button
-                className={`hiw-step-d ${currentStep === index ? "active" : ""}`}
+                className={`hiw-step-d ${
+                  currentStep === index ? "active" : ""
+                }`}
                 key={step.title}
                 onClick={() => setCurrentStep(index)}
                 type="button"
               >
                 <div className="hiw-bar" />
-                <div className="hiw-num-d syne">{String(index + 1).padStart(2, "0")}</div>
+
+                <div className="hiw-num-d syne">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
                 <div>
                   <div className="hiw-step-title">{step.title}</div>
                   <div className="hiw-step-body">{step.body}</div>
@@ -66,19 +74,19 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        <div className="hiw-visual reveal">
-          <div className="hiw-visual-glow" />
+        <div className="hiw-visual">
           {steps.map((step, index) => (
-            <div className={`hiw-panel ${currentStep === index ? "active" : ""}`} key={step.title}>
-              <div style={{ width: 240, textAlign: "center" }}>
-                <div className="mono" style={{ fontSize: 9, letterSpacing: ".18em", color: "var(--dmuted)", marginBottom: 10 }}>
-                  STEP {String(index + 1).padStart(2, "0")}
-                </div>
-                <div className="syne" style={{ fontSize: 28, lineHeight: 1, marginBottom: 10 }}>
-                  {step.title.toUpperCase()}
-                </div>
-                <p style={{ fontSize: 13, lineHeight: 1.7, color: "var(--dmuted)" }}>{step.body}</p>
-              </div>
+            <div
+              className={`hiw-panel ${currentStep === index ? "active" : ""}`}
+              key={step.title}
+            >
+              <img
+                src={step.img}
+                alt={step.title}
+                className="hiw-phone-img"
+                width={320}
+                height={652}
+              />
             </div>
           ))}
         </div>
