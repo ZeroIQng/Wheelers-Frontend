@@ -5,7 +5,7 @@ import Hero from "@/components/hero/Hero";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import CarSection from "@/components/sections/CarSection";
-import CTASection from "@/components/sections/CTASection";
+// import CTASection from "@/components/sections/CTASection";
 import Features from "@/components/sections/Features";
 import HowItWorks from "@/components/sections/HowItWorks";
 import RadarSection from "@/components/sections/RadarSection";
@@ -40,7 +40,7 @@ export default function HomePage() {
       <HowItWorks />
       <div className="transition-band" />
       <RadarSection />
-      <CTASection />
+      {/* <CTASection /> */}
       <Footer />
     </main>
   );
