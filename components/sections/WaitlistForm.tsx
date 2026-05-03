@@ -2,6 +2,7 @@
 
 import type { WaitlistQuestionId } from "@/lib/waitlist";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
 const MAX_WORDS = 250;
@@ -194,6 +195,7 @@ function findFirstIncompleteSection(form: FormState) {
 }
 
 export default function WaitlistPage() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<{
@@ -312,6 +314,7 @@ export default function WaitlistPage() {
         type: "success",
         message: result.message ?? "You’re on the waitlist. Welcome to Wheleers.",
       });
+      router.replace("/");
     } catch {
       setStatus({
         type: "error",
