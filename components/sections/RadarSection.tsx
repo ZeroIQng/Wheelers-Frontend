@@ -147,7 +147,7 @@ export default function RadarSection() {
         <div className="radar-copy">
           <div className="radar-center-dot" />
           <div className="radar-eyebrow mono">Drivers Near You</div>
-          <h2 className="section-h2 clash-display">
+          <h2 className="section-h2 clash-display clash-display--radar-heading">
             Match in <em>30 seconds.</em>
             <br />
             Every single time.
@@ -258,7 +258,7 @@ export default function RadarSection() {
             {matchDriver && (
               <>
                 <p className="radar-match-zone mono">{matchDriver.hub.zone}</p>
-                <p className="radar-match-name clash-display">{matchDriver.name}</p>
+                <p className="radar-match-name clash-display clash-display--driver-name">{matchDriver.name}</p>
                 <div className="radar-match-row">
                   <span className="radar-match-dot" />
                   <span className="radar-match-info">{matchDriver.info}</span>

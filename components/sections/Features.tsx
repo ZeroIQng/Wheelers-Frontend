@@ -41,7 +41,7 @@ export default function Features() {
       <div className="feat-dark-inner section-inner">
        <div className="feat-intro">
           <div className="section-eyebrow">Platform features</div>
-          <h2 className="dark-h2 clash-display">
+          <h2 className="dark-h2 clash-display clash-display--section-heading">
             Built for
             <br />
             the <em>next era</em>

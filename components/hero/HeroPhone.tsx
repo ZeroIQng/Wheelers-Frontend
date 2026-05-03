@@ -177,11 +177,11 @@ export default function HeroPhone() {
           />
           <text
             x={42}
-            y={50}
+            y={52}
             textAnchor="middle"
-            fontFamily="Syne, sans-serif"
+            fontFamily="'Clash Display', 'Segoe UI', sans-serif"
             fontWeight={800}
-            fontSize={24}
+            fontSize={30}
             fill="#fff"
           >
             W
@@ -191,9 +191,9 @@ export default function HeroPhone() {
         {/* ── wordmark ── */}
         <div
           style={{
-            fontFamily: "Syne, sans-serif",
+            fontFamily: "'Clash Display', 'Segoe UI', sans-serif",
             fontWeight: 800,
-            fontSize: 34,
+            fontSize: 40,
             color: "#fff",
             letterSpacing: -1,
             textAlign: "center",

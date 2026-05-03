@@ -40,7 +40,7 @@ export default function HowItWorks() {
         <div>
           <div style={{ marginBottom: 40 }}>
             <div className="section-eyebrow">How it works</div>
-            <h2 className="dark-h2 clash-display">
+            <h2 className="dark-h2 clash-display clash-display--section-heading">
               From signup
               <br />
               to <em>first ride</em>

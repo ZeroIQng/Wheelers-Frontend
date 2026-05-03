@@ -14,9 +14,9 @@ export default function Hero() {
           </div>
 
           <h1 className="hero-h1">
-            <span className="clash-display">RIDE.</span>
+            <span className="clash-display clash-display--hero-line">RIDE.</span>
             <br />
-            <span className="clash-display">EARN.</span>
+            <span className="clash-display clash-display--hero-line">EARN.</span>
             <br />
             <em>Own</em>
             <br />
@@ -41,7 +41,7 @@ export default function Hero() {
                 <div className="hero-card-dot" />
                 <span className="hero-card-caption mono">DRIVER FOUND</span>
               </div>
-              <div className="hero-card-title syne clash-display">2 min away</div>
+              <div className="hero-card-title syne clash-display clash-display--hero-card-title">2 min away</div>
               <div className="hero-card-body">Top rated | Toyota Camry</div>
             </div>
 

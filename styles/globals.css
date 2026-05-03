@@ -3511,6 +3511,47 @@ button, input, textarea, select { font: inherit; }
   font-family: "Clash Display", "Segoe UI", sans-serif;
 }
 
+.clash-display--mark.clash-display--mark {
+  font-size: 18px;
+}
+
+.clash-display--brand.clash-display--brand {
+  font-size: 17px;
+}
+
+.clash-display--hero-line.clash-display--hero-line {
+  display: inline-block;
+  font-size: 1.08em;
+}
+
+.clash-display--hero-card-title.clash-display--hero-card-title {
+  font-size: 30px;
+}
+
+.clash-display--section-heading.clash-display--section-heading {
+  font-size: clamp(34px, 4vw, 54px);
+}
+
+.clash-display--card-title.clash-display--card-title {
+  font-size: clamp(22px, 2.8vw, 32px);
+}
+
+.clash-display--radar-heading.clash-display--radar-heading {
+  font-size: clamp(30px, 3.6vw, 46px);
+}
+
+.clash-display--driver-name.clash-display--driver-name {
+  font-size: 20px;
+}
+
+.clash-display--footer-wordmark.clash-display--footer-wordmark {
+  font-size: 26px;
+}
+
+.clash-display--waitlist-title.clash-display--waitlist-title {
+  font-size: clamp(50px, 8vw, 102px);
+}
+
 .waitlist-page .question-thought-field {
   margin-top: 18px;
 }
