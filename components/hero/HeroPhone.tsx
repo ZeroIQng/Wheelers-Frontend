@@ -177,11 +177,11 @@ export default function HeroPhone() {
           />
           <text
             x={42}
-            y={52}
+            y={50}
             textAnchor="middle"
             fontFamily="'Clash Display', 'Segoe UI', sans-serif"
             fontWeight={800}
-            fontSize={30}
+            fontSize={25}
             fill="#fff"
           >
             W
