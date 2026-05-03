@@ -20,7 +20,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <div className="footer-wordmark">WHELEERS</div>
+          <div className="footer-wordmark clash-display">WHELEERS</div>
           <div className="footer-tagline">ride. earn. own.</div>
           <p className="footer-body">
             The first community-owned ride-hailing platform. Built on the blockchain.

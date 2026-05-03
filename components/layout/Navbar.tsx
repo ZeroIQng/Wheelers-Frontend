@@ -22,9 +22,9 @@ export default function Navbar() {
       <div className="nav-row">
         <Link href="#" className="nav-logo" onClick={closeMenu}>
           <div className="nav-orb">
-            <span>W</span>
+            <span className="clash-display">W</span>
           </div>
-          <span className="nav-brand">WHELEERS</span>
+          <span className="nav-brand clash-display">WHELEERS</span>
         </Link>
 
         <div className="nav-links">

@@ -37,7 +37,7 @@ export default function WhoSection() {
       <div className="section-inner">
         <div className="reveal">
           <div className="section-eyebrow">Who it&apos;s for</div>
-          <h2 className="dark-h2">
+          <h2 className="dark-h2 clash-display">
             Two sides of
             <br />
             the <em>same road</em>
@@ -49,7 +49,7 @@ export default function WhoSection() {
             <div className="who-d-card reveal" key={card.id}>
               <div className="who-d-num">{card.id}</div>
               <div className="who-d-icon">{card.icon}</div>
-              <div className="who-d-title">{card.title}</div>
+              <div className="who-d-title clash-display">{card.title}</div>
               <p className="who-d-body">{card.body}</p>
 
               <div className="who-perks">

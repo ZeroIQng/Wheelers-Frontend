@@ -329,9 +329,9 @@ export default function WaitlistPage() {
       <nav className="waitlist-nav">
         <Link href="/" className="nav-logo">
           <div className="nav-orb">
-            <span>W</span>
+            <span className="clash-display">W</span>
           </div>
-          <span className="nav-brand">WHELEERS</span>
+          <span className="nav-brand clash-display">WHELEERS</span>
         </Link>
 
         <Link href="/" className="waitlist-back-btn">
@@ -342,7 +342,7 @@ export default function WaitlistPage() {
       <section className="waitlist-hero section-inner">
         <div className="section-eyebrow">Early Access</div>
 
-        <h1 className="waitlist-title syne">
+        <h1 className="waitlist-title syne clash-display">
           Join the waitlist.
           <br />
           Help shape the <em>future ride.</em>
