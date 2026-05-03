@@ -240,16 +240,11 @@ export default function WaitlistPage() {
     }));
   }
 
-  function toggleOption(field: WaitlistQuestionId, option: string) {
+  function selectOption(field: WaitlistQuestionId, option: string) {
     setForm((current) => {
-      const selectedOptions = current[field];
-      const alreadySelected = selectedOptions.includes(option);
-
       return {
         ...current,
-        [field]: alreadySelected
-          ? selectedOptions.filter((item) => item !== option)
-          : [...selectedOptions, option],
+        [field]: [option],
       };
     });
   }
@@ -416,7 +411,7 @@ export default function WaitlistPage() {
 
                   <div className="option-list">
                     {question.options.map((option, optionIndex) => {
-                      const checked = form[question.id].includes(option);
+                      const checked = form[question.id][0] === option;
                       const inputId = `${question.id}-${optionIndex}`;
 
                       return (
@@ -427,14 +422,16 @@ export default function WaitlistPage() {
                         >
                           <input
                             id={inputId}
-                            type="checkbox"
-                            name={`${question.id}[]`}
+                            type="radio"
+                            name={question.id}
                             value={option}
                             checked={checked}
-                            onChange={() => toggleOption(question.id, option)}
+                            onChange={() => selectOption(question.id, option)}
                           />
 
-                          <span className="fake-checkbox" aria-hidden="true" />
+                          <span className="fake-option-check" aria-hidden="true">
+                            <span className="fake-option-check-mark">✓</span>
+                          </span>
 
                           <span>{option}</span>
                         </label>

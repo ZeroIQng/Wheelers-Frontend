@@ -3362,13 +3362,23 @@ button, input, textarea, select { font: inherit; }
   border-radius: var(--rd-sm);
   background: var(--cream2);
   padding: 13px 14px;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .waitlist-page .option-item:hover,
-.waitlist-page .option-item.selected,
 .waitlist-page .optional-check:hover {
-  background: var(--or3);
+  background: #fff4ea;
+}
+
+.waitlist-page .option-item.selected {
+  background: #fff0e4;
+  border-color: var(--or);
+}
+
+.waitlist-page .option-item:focus-within,
+.waitlist-page .optional-check:focus-within {
+  border-color: var(--or);
+  box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.16);
 }
 
 .waitlist-page .option-item input,
@@ -3376,6 +3386,41 @@ button, input, textarea, select { font: inherit; }
   position: absolute;
   opacity: 0;
   pointer-events: none;
+}
+
+.waitlist-page .fake-option-check {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  border: 2px solid var(--bk);
+  border-radius: 6px;
+  background: var(--cream);
+  box-shadow: 2px 2px 0 var(--bk);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.waitlist-page .fake-option-check-mark {
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+  transform: scale(0.7);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.waitlist-page .option-item input:checked + .fake-option-check {
+  background: var(--or);
+  border-color: var(--bk);
+}
+
+.waitlist-page .option-item input:checked + .fake-option-check .fake-option-check-mark {
+  color: var(--bk);
+  transform: scale(1.05);
 }
 
 .waitlist-page .fake-checkbox {
@@ -3413,6 +3458,11 @@ button, input, textarea, select { font: inherit; }
   font-size: 14px;
   line-height: 1.5;
   color: #4f3b31 !important;
+}
+
+.waitlist-page .option-item.selected span:last-child {
+  color: var(--bk) !important;
+  font-weight: 700;
 }
 
 .waitlist-page .optional-check {
