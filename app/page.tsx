@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import HomePageClient from "@/components/home/HomePageClient";
 
 export const metadata: Metadata = {
-  title: "Affordable Ride Hailing App in Lagos | Bolt & Uber Alternative",
+  title: "Affordable Electric Ride Hailing App in Nigeria",
   description:
-    "Wheelers is an affordable ride hailing app in Lagos with fixed prices, upfront fares, and a cleaner alternative to Bolt or Uber.",
+    "Wheelers is an affordable electric ride hailing app in Nigeria with fixed prices, upfront fares, and a cleaner alternative for everyday rides.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Affordable Ride Hailing App in Lagos | Bolt & Uber Alternative",
+    title: "Affordable Electric Ride Hailing App in Nigeria",
     description:
-      "Wheelers is an affordable ride hailing app in Lagos with fixed prices, upfront fares, and a cleaner alternative to Bolt or Uber.",
+      "Wheelers is an affordable electric ride hailing app in Nigeria with fixed prices, upfront fares, and a cleaner alternative for everyday rides.",
     url: "/",
   },
   twitter: {
-    title: "Affordable Ride Hailing App in Lagos | Bolt & Uber Alternative",
+    title: "Affordable Electric Ride Hailing App in Nigeria",
     description:
-      "Wheelers is an affordable ride hailing app in Lagos with fixed prices, upfront fares, and a cleaner alternative to Bolt or Uber.",
+      "Wheelers is an affordable electric ride hailing app in Nigeria with fixed prices, upfront fares, and a cleaner alternative for everyday rides.",
   },
 };
 
