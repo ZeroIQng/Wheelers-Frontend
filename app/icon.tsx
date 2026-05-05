@@ -30,7 +30,7 @@ export default function Icon() {
             justifyContent: "center",
             background: "#ff5c00",
             border: "4px solid #0d0d0d",
-            color: "#ffffff",
+            color: "#ff8f52",
             fontSize: 30,
             fontWeight: 800,
             fontFamily: "Arial",
