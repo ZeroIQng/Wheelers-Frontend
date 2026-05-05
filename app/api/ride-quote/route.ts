@@ -1,3 +1,7 @@
+import {
+  geocodeLocation,
+  haversineDistanceKm,
+} from "@/lib/location-search";
 import { calculateRidePrice } from "@/lib/ride-pricing";
 
 export const runtime = "nodejs";
@@ -12,16 +16,13 @@ type RideQuotePayload = {
   distanceKm?: unknown;
 };
 
-type ResolvedLocation = {
-  label: string;
-  coordinates: [number, number];
-};
-
 type OpenRouteServiceConfig = {
   apiKey: string;
   baseUrl: string;
   profile: string;
 };
+
+type QuoteDistanceSource = "route" | "estimate";
 
 function readOptionalString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -64,62 +65,10 @@ function readServiceConfig(): OpenRouteServiceConfig | null {
   };
 }
 
-async function geocodeLocation(
-  config: OpenRouteServiceConfig,
-  query: string,
-): Promise<ResolvedLocation> {
-  const url = createServiceUrl(config.baseUrl, "geocode/search");
-  url.searchParams.set("api_key", config.apiKey);
-  url.searchParams.set("text", query);
-  url.searchParams.set("size", "1");
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      Authorization: config.apiKey,
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Could not geocode "${query}".`);
-  }
-
-  const payload = (await response.json()) as {
-    features?: Array<{
-      geometry?: { coordinates?: unknown };
-      properties?: { label?: unknown; name?: unknown };
-    }>;
-  };
-
-  const feature = payload.features?.[0];
-  const coordinates = feature?.geometry?.coordinates;
-  const label =
-    typeof feature?.properties?.label === "string"
-      ? feature.properties.label
-      : typeof feature?.properties?.name === "string"
-        ? feature.properties.name
-        : query;
-
-  if (
-    !Array.isArray(coordinates) ||
-    coordinates.length < 2 ||
-    typeof coordinates[0] !== "number" ||
-    typeof coordinates[1] !== "number"
-  ) {
-    throw new Error(`No route point found for "${query}".`);
-  }
-
-  return {
-    label,
-    coordinates: [coordinates[0], coordinates[1]],
-  };
-}
-
 async function getRouteDistanceKm(
   config: OpenRouteServiceConfig,
-  from: ResolvedLocation,
-  to: ResolvedLocation,
+  from: { latitude: number; longitude: number },
+  to: { latitude: number; longitude: number },
 ) {
   const url = createServiceUrl(config.baseUrl, `v2/directions/${config.profile}`);
   url.searchParams.set("api_key", config.apiKey);
@@ -131,7 +80,10 @@ async function getRouteDistanceKm(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      coordinates: [from.coordinates, to.coordinates],
+      coordinates: [
+        [from.longitude, from.latitude],
+        [to.longitude, to.latitude],
+      ],
       instructions: false,
     }),
     cache: "no-store",
@@ -152,6 +104,19 @@ async function getRouteDistanceKm(
   }
 
   return distanceMeters / 1000;
+}
+
+function estimateDistanceKm(
+  from: { latitude: number; longitude: number },
+  to: { latitude: number; longitude: number },
+) {
+  const directDistanceKm = haversineDistanceKm(from, to);
+
+  if (directDistanceKm <= 1) {
+    return directDistanceKm * 1.15;
+  }
+
+  return directDistanceKm * 1.25;
 }
 
 export async function POST(request: Request) {
@@ -192,41 +157,43 @@ export async function POST(request: Request) {
     );
   }
 
-  const config = readServiceConfig();
-
-  if (!config) {
-    return Response.json(
-      {
-        message:
-          "OpenRouteService is not configured. Add OPENROUTESERVICE_API_KEY to your server environment.",
-      },
-      { status: 500 },
-    );
-  }
-
   try {
     const [resolvedFrom, resolvedTo] = await Promise.all([
-      geocodeLocation(config, from),
-      geocodeLocation(config, to),
+      geocodeLocation(from),
+      geocodeLocation(to),
     ]);
-    const distanceKm = await getRouteDistanceKm(config, resolvedFrom, resolvedTo);
+    const config = readServiceConfig();
+    let distanceKm: number;
+    let distanceSource: QuoteDistanceSource = "estimate";
+
+    if (config) {
+      try {
+        distanceKm = await getRouteDistanceKm(config, resolvedFrom, resolvedTo);
+        distanceSource = "route";
+      } catch {
+        distanceKm = estimateDistanceKm(resolvedFrom, resolvedTo);
+      }
+    } else {
+      distanceKm = estimateDistanceKm(resolvedFrom, resolvedTo);
+    }
 
     return Response.json({
       from: resolvedFrom.label,
       to: resolvedTo.label,
       quote: calculateRidePrice(distanceKm),
+      distanceSource,
     });
   } catch (error) {
-    console.error("ride quote lookup failed", error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : "The ride quote could not be calculated.";
 
     return Response.json(
       {
-        message:
-          error instanceof Error
-            ? error.message
-            : "The ride quote could not be calculated.",
+        message,
       },
-      { status: 500 },
+      { status: 400 },
     );
   }
 }

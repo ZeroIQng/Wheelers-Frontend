@@ -27,8 +27,22 @@ type QuoteResponse = {
   from?: string;
   to?: string;
   quote?: RidePriceBreakdown;
+  distanceSource?: "route" | "estimate";
   message?: string;
 };
+
+type LocationSuggestion = {
+  label: string;
+  latitude: number;
+  longitude: number;
+};
+
+type LocationSearchResponse = {
+  results?: LocationSuggestion[];
+  message?: string;
+};
+
+type ActiveField = "from" | "to" | null;
 
 /* ─── keyframes injected once ─── */
 const SPLASH_CSS = `
@@ -51,37 +65,50 @@ const SPLASH_CSS = `
   }
 `;
 
+const SPLASH_STYLE_ID = "wheelers-hero-phone-splash-css";
+
 /* ─── state machine ─── */
 type Phase = "splash" | "bursting" | "quote";
 
 export default function HeroPhone() {
   const styleRef = useRef<HTMLStyleElement | null>(null);
+  const priceCardRef = useRef<HTMLDivElement | null>(null);
   const [phase, setPhase] = useState<Phase>("splash");
+  const blurTimeoutRef = useRef<number | null>(null);
 
   /* quote state */
   const [from, setFrom] = useState(DEFAULT_FROM);
   const [to, setTo] = useState(DEFAULT_TO);
-  const [resolvedFrom, setResolvedFrom] = useState(DEFAULT_FROM);
-  const [resolvedTo, setResolvedTo] = useState(DEFAULT_TO);
+  const [activeField, setActiveField] = useState<ActiveField>(null);
+  const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
+  const [isSearchingLocations, setIsSearchingLocations] = useState(false);
+  const [distanceSource, setDistanceSource] = useState<"route" | "estimate">(
+    "route",
+  );
   const [quote, setQuote] = useState<RidePriceBreakdown>(() =>
     calculateRidePrice(DEFAULT_DISTANCE_KM),
   );
-  const [feedback, setFeedback] = useState("Demo fare loaded.");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
   /* inject keyframes once */
   useEffect(() => {
+    const existingStyle = document.getElementById(
+      SPLASH_STYLE_ID,
+    ) as HTMLStyleElement | null;
+
+    if (existingStyle) {
+      styleRef.current = existingStyle;
+      return;
+    }
+
     if (!styleRef.current) {
       const el = document.createElement("style");
+      el.id = SPLASH_STYLE_ID;
       el.textContent = SPLASH_CSS;
       document.head.appendChild(el);
       styleRef.current = el;
     }
-    return () => {
-      styleRef.current?.remove();
-      styleRef.current = null;
-    };
   }, []);
 
   /* trigger burst after 900 ms */
@@ -95,6 +122,59 @@ export default function HeroPhone() {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      clearBlurTimeout();
+    };
+  }, []);
+
+  useEffect(() => {
+    const currentValue =
+      activeField === "from" ? from : activeField === "to" ? to : "";
+    const query = currentValue.trim();
+
+    if (!activeField || query.length < 2) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(async () => {
+      setIsSearchingLocations(true);
+
+      try {
+        const response = await fetch(
+          `/api/location-search?q=${encodeURIComponent(query)}`,
+          { signal: controller.signal },
+        );
+        const payload = (await response.json()) as LocationSearchResponse;
+
+        if (!response.ok) {
+          throw new Error(payload.message ?? "Location search failed.");
+        }
+
+        setSuggestions(Array.isArray(payload.results) ? payload.results : []);
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setSuggestions([]);
+        setError(
+          error instanceof Error ? error.message : "Location search failed.",
+        );
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsSearchingLocations(false);
+        }
+      }
+    }, 220);
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeField, from, to]);
+
   /* quote fetch */
   async function loadQuote() {
     try {
@@ -107,20 +187,86 @@ export default function HeroPhone() {
       if (!response.ok || !payload.quote) {
         throw new Error(payload.message ?? "Quote could not be loaded.");
       }
-      setResolvedFrom(payload.from ?? from.trim());
-      setResolvedTo(payload.to ?? to.trim());
+      setDistanceSource(payload.distanceSource ?? "estimate");
       setQuote(payload.quote);
-      setFeedback(`Route locked at ${payload.quote.distanceKm.toFixed(2)} km.`);
+      window.requestAnimationFrame(() => {
+        priceCardRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Quote could not be loaded.");
-      setFeedback("Showing the last available estimate.");
     }
   }
+
+  function clearBlurTimeout() {
+    if (blurTimeoutRef.current !== null) {
+      window.clearTimeout(blurTimeoutRef.current);
+      blurTimeoutRef.current = null;
+    }
+  }
+
+  function handleFieldFocus(field: Exclude<ActiveField, null>) {
+    clearBlurTimeout();
+    setActiveField(field);
+  }
+
+  function handleFieldBlur() {
+    clearBlurTimeout();
+    blurTimeoutRef.current = window.setTimeout(() => {
+      setActiveField(null);
+      setSuggestions([]);
+      setIsSearchingLocations(false);
+    }, 140);
+  }
+
+  function handleLocationInputChange(
+    field: Exclude<ActiveField, null>,
+    value: string,
+  ) {
+    setError("");
+
+    if (field === "from") {
+      setFrom(value);
+    } else {
+      setTo(value);
+    }
+
+    setActiveField(field);
+
+    if (value.trim().length < 2) {
+      setSuggestions([]);
+      setIsSearchingLocations(false);
+    }
+  }
+
+  function handleSuggestionSelect(suggestion: LocationSuggestion) {
+    clearBlurTimeout();
+
+    if (activeField === "from") {
+      setFrom(suggestion.label);
+    }
+
+    if (activeField === "to") {
+      setTo(suggestion.label);
+    }
+
+    setSuggestions([]);
+    setActiveField(null);
+    setIsSearchingLocations(false);
+  }
+
+  const shouldShowSuggestions =
+    activeField !== null &&
+    (isSearchingLocations || suggestions.length > 0);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    setFeedback("Checking route and fixed fare...");
+    setSuggestions([]);
+    setActiveField(null);
+    setIsSearchingLocations(false);
     startTransition(() => void loadQuote());
   }
 
@@ -371,6 +517,7 @@ export default function HeroPhone() {
             padding: 12,
             height: "100%",
             color: "var(--bk)",
+            overflowY: "auto",
             animation: phase === "quote" ? "whl-quote-in 0.4s ease forwards" : "none",
             opacity: phase === "quote" ? 1 : 0,
           }}
@@ -401,7 +548,9 @@ export default function HeroPhone() {
               <input
                 autoComplete="street-address"
                 name="from"
-                onChange={(e) => setFrom(e.target.value)}
+                onBlur={handleFieldBlur}
+                onChange={(e) => handleLocationInputChange("from", e.target.value)}
+                onFocus={() => handleFieldFocus("from")}
                 placeholder="Pickup location"
                 value={from}
               />
@@ -411,64 +560,48 @@ export default function HeroPhone() {
               <input
                 autoComplete="street-address"
                 name="to"
-                onChange={(e) => setTo(e.target.value)}
+                onBlur={handleFieldBlur}
+                onChange={(e) => handleLocationInputChange("to", e.target.value)}
+                onFocus={() => handleFieldFocus("to")}
                 placeholder="Destination"
                 value={to}
               />
             </label>
+            {shouldShowSuggestions ? (
+              <div className="hero-phone-suggestions" role="listbox">
+                {isSearchingLocations && suggestions.length === 0 ? (
+                  <div className="hero-phone-suggestion-status">Searching places...</div>
+                ) : null}
+                {suggestions.map((suggestion) => (
+                  <button
+                    className="hero-phone-suggestion"
+                    key={`${activeField}-${suggestion.label}`}
+                    onClick={() => handleSuggestionSelect(suggestion)}
+                    onMouseDown={(event) => event.preventDefault()}
+                    type="button"
+                  >
+                    {suggestion.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <button className="hero-phone-submit" disabled={isPending} type="submit">
               {isPending ? "Getting price..." : "See price"}
             </button>
           </form>
 
-          <div className="hero-phone-route-card">
-            <div className="hero-phone-route-stop active">
-              <span />
-              <div>
-                <p>Pickup</p>
-                <strong>{resolvedFrom}</strong>
-              </div>
+          <div className="hero-phone-price-card" ref={priceCardRef}>
+            <div className="hero-phone-price-copy">
+              <p>Total fare</p>
+              <strong>{formatCurrency(quote.tripPrice)}</strong>
             </div>
-            <div className="hero-phone-route-line" />
-            <div className="hero-phone-route-stop">
-              <span />
-              <div>
-                <p>Dropoff</p>
-                <strong>{resolvedTo}</strong>
-              </div>
+            <div className="hero-phone-price-meta">
+              <span>{quote.distanceKm.toFixed(2)} km</span>
+              <span>{distanceSource === "estimate" ? "Estimated" : "Live route"}</span>
             </div>
           </div>
 
-          <div className="hero-phone-metrics">
-            <div className="hero-phone-metric">
-              <p>Distance</p>
-              <strong>{quote.distanceKm.toFixed(2)} km</strong>
-            </div>
-            <div className="hero-phone-metric">
-              <p>Price / km</p>
-              <strong>{formatCurrency(quote.pricePerKm)}</strong>
-            </div>
-            <div className="hero-phone-metric">
-              <p>Break even</p>
-              <strong>{formatCurrency(quote.breakEvenPerKm)}</strong>
-            </div>
-            <div className="hero-phone-metric">
-              <p>Trip profit</p>
-              <strong>{formatCurrency(quote.tripProfit)}</strong>
-            </div>
-          </div>
-
-          <div className="hero-phone-bottom-card">
-            <div className="hero-phone-bottom-top">
-              <div>
-                <p>Energy cost</p>
-                <strong>{formatCurrency(quote.energyCost)}</strong>
-              </div>
-              <div className="hero-phone-live-dot" />
-            </div>
-            <div className="hero-phone-feedback">{feedback}</div>
-            {error ? <div className="hero-phone-error">{error}</div> : null}
-          </div>
+          {error ? <div className="hero-phone-error hero-phone-error--inline">{error}</div> : null}
         </div>
       </div>
     </div>
