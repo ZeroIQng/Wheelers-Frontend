@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     description:
       "Wheelers is a ride-hailing platform focused on fixed pricing, electric mobility, and a cleaner booking experience.",
   },
+  icons: {
+    icon: "/icon",
+    shortcut: "/icon",
+    apple: "/apple-icon",
+  },
 };
 
 export default function RootLayout({
