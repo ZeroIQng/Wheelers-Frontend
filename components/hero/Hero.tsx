@@ -37,18 +37,25 @@ export default function Hero() {
           <div className="hero-glow-orb" />
           <div className="hero-device-stage">
             <div className="hero-glass-card right">
-              <div className="hero-card-head">
-                <div className="hero-card-dot" />
-                <span className="hero-card-caption mono">DRIVER FOUND</span>
+              <div className="hero-glass-card-inner">
+                <div className="hero-card-head">
+                  <div className="hero-card-dot" />
+                  <span className="hero-card-caption">Driver found</span>
+                </div>
+                <div className="hero-card-title">2 min away</div>
+                <div className="hero-card-body">Top rated · Toyota Camry</div>
               </div>
-              <div className="hero-card-title syne clash-display clash-display--hero-card-title">2 min away</div>
-              <div className="hero-card-body">Top rated | Toyota Camry</div>
             </div>
 
             <div className="hero-glass-card left">
-              <div className="hero-card-caption mono">EARNED TODAY</div>
-              <div className="hero-card-value syne">+N12,400</div>
-              <div className="hero-card-body">Driver rewards settle in-app</div>
+              <div className="hero-glass-card-inner">
+                <div className="hero-card-head">
+                  <span className="hero-card-caption">Earned today</span>
+                </div>
+                <div className="hero-card-value">+₦12,400</div>
+                <div className="hero-card-body">Driver rewards settle in-app</div>
+                <div className="hero-card-chip">↑ 18% vs yesterday</div>
+              </div>
             </div>
 
             <HeroPhone />
