@@ -36,4 +36,4 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/ZeroIQng/Wheelers-Frontend.git
-cd Wheelers-Frontend
+cd Wheelers-Frontend-app
