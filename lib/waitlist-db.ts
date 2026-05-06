@@ -1,11 +1,11 @@
-import { Pool } from "pg";
+import { Pool, type QueryResultRow } from "pg";
 
 const globalForWaitlistDb = globalThis as typeof globalThis & {
   wheelersWaitlistPool?: Pool;
   wheelersWaitlistTableReady?: Promise<void>;
 };
 
-function getPool() {
+function getPool(): Pool {
   if (!globalForWaitlistDb.wheelersWaitlistPool) {
     const connectionString = process.env.Db_URL ?? process.env.DATABASE_URL;
 
@@ -115,4 +115,124 @@ export async function insertWaitlistSubmission(submission: {
       submission.allowContact,
     ],
   );
+}
+
+/* ADMIN GET TYPES + FETCH FUNCTION */
+
+export type WaitlistSubmissionRow = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  transportChoice: string[];
+  priceImpact: string[];
+  rideHailingPain: string[];
+  evTrustTradeoff: string[];
+  ikejaLekkiPrice: string[];
+  rideSharingBehavior: string[];
+  groupRideAcceptance: string[];
+  questionThoughts: Record<string, string>;
+  optionalFeedback: string;
+  allowContact: boolean;
+  submittedAt: string;
+};
+
+type WaitlistDbRow = QueryResultRow & {
+  id: string | number;
+  name: string;
+  email: string;
+  phone: string;
+  transport_choice: unknown;
+  price_impact: unknown;
+  ride_hailing_pain: unknown;
+  ev_trust_tradeoff: unknown;
+  ikeja_lekki_price: unknown;
+  ride_sharing_behavior: unknown;
+  group_ride_acceptance: unknown;
+  question_thoughts: unknown;
+  optional_feedback: string;
+  allow_contact: boolean;
+  submitted_at: string | Date;
+};
+
+function normalizeJsonArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map(String);
+  }
+
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed.map(String) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
+}
+
+function normalizeJsonObject(value: unknown): Record<string, string> {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, string>;
+  }
+
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return parsed as Record<string, string>;
+      }
+    } catch {
+      return {};
+    }
+  }
+
+  return {};
+}
+
+export async function getWaitlistSubmissions(): Promise<WaitlistSubmissionRow[]> {
+  await ensureWaitlistTable();
+
+  const result = await getPool().query<WaitlistDbRow>(`
+    SELECT
+      id,
+      name,
+      email,
+      phone,
+      transport_choice,
+      price_impact,
+      ride_hailing_pain,
+      ev_trust_tradeoff,
+      ikeja_lekki_price,
+      ride_sharing_behavior,
+      group_ride_acceptance,
+      question_thoughts,
+      optional_feedback,
+      allow_contact,
+      submitted_at
+    FROM waitlist_submissions
+    ORDER BY submitted_at DESC
+  `);
+
+  return result.rows.map((row: WaitlistDbRow) => ({
+    id: Number(row.id),
+    name: row.name,
+    email: row.email,
+    phone: row.phone,
+    transportChoice: normalizeJsonArray(row.transport_choice),
+    priceImpact: normalizeJsonArray(row.price_impact),
+    rideHailingPain: normalizeJsonArray(row.ride_hailing_pain),
+    evTrustTradeoff: normalizeJsonArray(row.ev_trust_tradeoff),
+    ikejaLekkiPrice: normalizeJsonArray(row.ikeja_lekki_price),
+    rideSharingBehavior: normalizeJsonArray(row.ride_sharing_behavior),
+    groupRideAcceptance: normalizeJsonArray(row.group_ride_acceptance),
+    questionThoughts: normalizeJsonObject(row.question_thoughts),
+    optionalFeedback: row.optional_feedback,
+    allowContact: Boolean(row.allow_contact),
+    submittedAt: row.submitted_at
+      ? new Date(row.submitted_at).toISOString()
+      : "",
+  }));
 }
