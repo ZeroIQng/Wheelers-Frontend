@@ -8,6 +8,7 @@
  
 :root {
   /* CORE PALETTE */
+  color-scheme: light only;
   --or:    #ff5c00;
   --or2:   #ff7a29;
   --or3:   #ffe0cc;

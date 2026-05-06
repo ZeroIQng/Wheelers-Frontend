@@ -47,6 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="color-scheme" content="light only" />  {/* ← ADD */}
+      </head>
       <body>
         {/* Microsoft Clarity Analytics */}
         <Script
