@@ -167,7 +167,7 @@ export default function RadarSection() {
           <svg
             className="radar-map-svg"
             viewBox="0 0 340 340"
-            aria-label="Wheleers city radar — tap a hub to ping drivers"
+            aria-label="Wheelers city radar — tap a hub to ping drivers"
           >
             {[60, 110, 155].map((r) => (
               <circle

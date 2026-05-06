@@ -64,7 +64,7 @@ export default function CarSection() {
         </div>
 
         {/* <div className="car-stage-badge">
-          <span className="mono">WHELEERS NETWORK</span>
+          <span className="mono">Wheelers NETWORK</span>
           <strong>Every ride, every block, always moving.</strong>
         </div> */}
 

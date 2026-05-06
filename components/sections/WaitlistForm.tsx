@@ -312,7 +312,7 @@ export default function WaitlistPage() {
       setForm(initialForm);
       setStatus({
         type: "success",
-        message: result.message ?? "You’re on the waitlist. Welcome to Wheleers.",
+        message: result.message ?? "You’re on the waitlist. Welcome to Wheelers.",
       });
       router.replace("/");
     } catch {
@@ -334,7 +334,7 @@ export default function WaitlistPage() {
           <div className="nav-orb">
             <span className="clash-display clash-display--mark">W</span>
           </div>
-          <span className="nav-brand clash-display clash-display--brand">WHELEERS</span>
+          <span className="nav-brand clash-display clash-display--brand">Wheelers</span>
         </Link>
 
         <Link href="/" className="waitlist-back-btn">
@@ -469,7 +469,7 @@ export default function WaitlistPage() {
               name="optionalFeedback"
               value={form.optionalFeedback}
               onChange={(event) => updateOptionalFeedback(event.target.value)}
-              placeholder="Tell us what would make you trust or use Wheleers..."
+              placeholder="Tell us what would make you trust or use Wheelers..."
               rows={5}
             />
 
@@ -490,7 +490,7 @@ export default function WaitlistPage() {
             <span className="fake-checkbox" aria-hidden="true" />
 
             <span>
-              {requiredLabel("I’m okay with Wheleers contacting me for early access, testing, or follow-up questions.")}
+              {requiredLabel("I’m okay with Wheelers contacting me for early access, testing, or follow-up questions.")}
             </span>
           </label>
 

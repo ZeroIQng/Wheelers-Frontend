@@ -18,7 +18,7 @@ export default function TokenSection() {
               lineHeight: 1.7,
             }}
           >
-            $WHL is the governance and rewards token of the Wheleers network. Every trip
+            $WHL is the governance and rewards token of the Wheelers network. Every trip
             mints tokens. Stake to vote. Vote to shape the future of mobility.
           </p>
 

@@ -10,7 +10,7 @@
 //             Be first on the road.
 //           </h2>
 //           <p className="cta-sub">
-//             Wheleers is building a cleaner ride experience around affordability,
+//             Wheelers is building a cleaner ride experience around affordability,
 //             reliability, and city movement that feels more intentional.
 //           </p>
 //         </div>

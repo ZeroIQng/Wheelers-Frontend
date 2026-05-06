@@ -24,7 +24,7 @@ export default function Navbar() {
           <div className="nav-orb">
             <span className="clash-display clash-display--mark">W</span>
           </div>
-          <span className="nav-brand clash-display clash-display--brand">WHELEERS</span>
+          <span className="nav-brand clash-display clash-display--brand">Wheelers</span>
         </Link>
 
         <div className="nav-links">

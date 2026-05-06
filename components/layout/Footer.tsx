@@ -20,7 +20,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <div className="footer-wordmark clash-display clash-display--footer-wordmark">WHELEERS</div>
+          <div className="footer-wordmark clash-display clash-display--footer-wordmark">Wheelers</div>
           <div className="footer-tagline">ride. earn. own.</div>
           <p className="footer-body">
             The first community-owned ride-hailing platform. Built on the blockchain.
@@ -41,7 +41,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>(c) 2025 Wheleers | All rights reserved</p>
+        <p>(c) 2025 Wheelers | All rights reserved</p>
         <div className="footer-social">
           {["X", "in", "ig", "tg"].map((label) => (
             <Link href="#" className="social-btn" key={label}>
