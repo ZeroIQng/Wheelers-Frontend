@@ -32,6 +32,9 @@ type Question = {
   prompt: string;
   options: string[];
   thoughtPlaceholder: string;
+  multiSelect?: boolean;
+  maxSelect?: number;
+  tooltip?: string;
 };
 
 const questions: Question[] = [
@@ -46,7 +49,7 @@ const questions: Question[] = [
       "My default is ride-hailing apps",
       "My default is public transport",
       "I choose based on price each time",
-      "I use ride-hailing mainly when I’m in a hurry or running late",
+      "I use ride-hailing mainly when I'm in a hurry or running late",
       "I use ride-hailing mainly for long or unfamiliar trips (e.g., going to the Island)",
     ],
   },
@@ -61,22 +64,25 @@ const questions: Question[] = [
       "I have to cut other expenses",
       "I feel it but manage",
       "Only major increases affect me",
-      "It doesn’t affect me",
+      "It doesn't affect me",
     ],
   },
   {
     id: "rideHailingPain",
     number: "03",
     title: "Current Ride-Hailing Pain",
-    prompt: "What is your biggest issue with ride-hailing apps (Bolt, Uber, InDrive)?",
+    prompt:
+      "What are your biggest issues with ride-hailing apps (Bolt, Uber, InDrive)? Pick up to 2.",
     thoughtPlaceholder:
       "Tell us what frustrates you most about current ride-hailing apps.",
+    multiSelect: true,
+    maxSelect: 2,
     options: [
       "Too expensive",
       "Prices are unpredictable",
       "Long wait times / driver cancellations",
       "Safety concerns",
-      "I don’t use them — too expensive",
+      "I don't use them — too expensive",
     ],
   },
   {
@@ -89,10 +95,10 @@ const questions: Question[] = [
       "Tell us what would make you trust or reject an electric ride service.",
     options: [
       "Yes — I trust EVs and would use it immediately",
-      "Yes — but I’d want to try it first",
+      "Yes — but I'd want to try it first",
       "Maybe — depends on how much I save",
-      "No — I don’t want to wait longer",
-      "No — I don’t trust EVs",
+      "No — I don't want to wait longer",
+      "No — I don't trust EVs",
     ],
   },
   {
@@ -132,11 +138,13 @@ const questions: Question[] = [
       "Would you share a ride with a verified stranger (same gender, rated 4.5+) to save up to 60%? What concerns you most?",
     thoughtPlaceholder:
       "Tell us your biggest concern: safety, comfort, timing, privacy, or something else.",
+    tooltip:
+      "Group ride sharing means that if you’re traveling in a particular direction, other verified riders along your route can join the same ride. This helps reduce the cost for everyone.",
     options: [
       "Yes — no concerns",
       "Yes — but concerned about safety",
       "Maybe — depends on situation",
-      "No — I don’t want to share rides",
+      "No — I don't want to share rides",
     ],
   },
 ];
@@ -194,6 +202,34 @@ function findFirstIncompleteSection(form: FormState) {
   return questions.find((question) => form[question.id].length === 0) ?? null;
 }
 
+function TooltipIcon({ text }: { text: string }) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <span className="tooltip-wrapper">
+      <button
+        type="button"
+        className={`tooltip-trigger ${visible ? "is-open" : ""}`}
+        aria-label="More information"
+        aria-expanded={visible}
+        onClick={() => setVisible((current) => !current)}
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        onFocus={() => setVisible(true)}
+        onBlur={() => setVisible(false)}
+      >
+        ?
+      </button>
+
+      {visible && (
+        <span className="tooltip-bubble" role="tooltip">
+          {text}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export default function WaitlistPage() {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialForm);
@@ -211,10 +247,7 @@ export default function WaitlistPage() {
     [form.optionalFeedback]
   );
 
-  function updateTextField(
-    field: "name" | "email" | "phone",
-    value: string
-  ) {
+  function updateTextField(field: "name" | "email" | "phone", value: string) {
     setForm((current) => ({
       ...current,
       [field]: value,
@@ -242,11 +275,36 @@ export default function WaitlistPage() {
     }));
   }
 
-  function selectOption(field: WaitlistQuestionId, option: string) {
+  function selectOption(
+    field: WaitlistQuestionId,
+    option: string,
+    multiSelect?: boolean,
+    maxSelect?: number
+  ) {
     setForm((current) => {
+      if (!multiSelect) {
+        return { ...current, [field]: [option] };
+      }
+
+      const currentSelections: string[] = current[field];
+      const alreadySelected = currentSelections.includes(option);
+
+      if (alreadySelected) {
+        return {
+          ...current,
+          [field]: currentSelections.filter((item) => item !== option),
+        };
+      }
+
+      const cap = maxSelect ?? 2;
+
+      if (currentSelections.length >= cap) {
+        return current;
+      }
+
       return {
         ...current,
-        [field]: [option],
+        [field]: [...currentSelections, option],
       };
     });
   }
@@ -312,7 +370,8 @@ export default function WaitlistPage() {
       setForm(initialForm);
       setStatus({
         type: "success",
-        message: result.message ?? "You’re on the waitlist. Welcome to Wheelers.",
+        message:
+          result.message ?? "You're on the waitlist. Welcome to Wheelers.",
       });
       router.replace("/");
     } catch {
@@ -334,7 +393,10 @@ export default function WaitlistPage() {
           <div className="nav-orb">
             <span className="clash-display clash-display--mark">W</span>
           </div>
-          <span className="nav-brand clash-display clash-display--brand">Wheelers</span>
+
+          <span className="nav-brand clash-display clash-display--brand">
+            Wheelers
+          </span>
         </Link>
 
         <Link href="/" className="waitlist-back-btn">
@@ -353,7 +415,8 @@ export default function WaitlistPage() {
 
         <p className="waitlist-lead">
           Answer a few quick questions so we can understand how people move,
-          what they pay, and what would make a cheaper shared EV ride actually work.
+          what they pay, and what would make a cheaper shared EV ride actually
+          work.
         </p>
       </section>
 
@@ -362,6 +425,7 @@ export default function WaitlistPage() {
           <div className="waitlist-form-grid">
             <label className="waitlist-field">
               <span>{requiredLabel("Name")}</span>
+
               <input
                 type="text"
                 name="name"
@@ -374,11 +438,14 @@ export default function WaitlistPage() {
 
             <label className="waitlist-field">
               <span>{requiredLabel("Email")}</span>
+
               <input
                 type="email"
                 name="email"
                 value={form.email}
-                onChange={(event) => updateTextField("email", event.target.value)}
+                onChange={(event) =>
+                  updateTextField("email", event.target.value)
+                }
                 placeholder="you@example.com"
                 required
               />
@@ -386,11 +453,14 @@ export default function WaitlistPage() {
 
             <label className="waitlist-field waitlist-field-full">
               <span>Phone number</span>
+
               <input
                 type="tel"
                 name="phone"
                 value={form.phone}
-                onChange={(event) => updateTextField("phone", event.target.value)}
+                onChange={(event) =>
+                  updateTextField("phone", event.target.value)
+                }
                 placeholder="+234..."
               />
             </label>
@@ -400,36 +470,61 @@ export default function WaitlistPage() {
             {questions.map((question) => {
               const thoughtValue = form.questionThoughts[question.id];
               const wordCount = countWords(thoughtValue);
+              const selections: string[] = form[question.id];
 
               return (
                 <fieldset className="question-card" key={question.id}>
                   <div className="question-top">
-                    <span className="question-number mono">{question.number}</span>
+                    <span className="question-number mono">
+                      {question.number}
+                    </span>
 
                     <div>
-                      <legend>{requiredLabel(question.title)}</legend>
+                      <legend className="question-legend">
+                        <span>{requiredLabel(question.title)}</span>
+
+                        {question.tooltip && (
+                          <TooltipIcon text={question.tooltip} />
+                        )}
+                      </legend>
+
                       <p>{question.prompt}</p>
                     </div>
                   </div>
 
                   <div className="option-list">
                     {question.options.map((option, optionIndex) => {
-                      const checked = form[question.id][0] === option;
+                      const checked = selections.includes(option);
                       const inputId = `${question.id}-${optionIndex}`;
+                      const isMulti = question.multiSelect ?? false;
+
+                      const atCap =
+                        isMulti &&
+                        selections.length >= (question.maxSelect ?? 2) &&
+                        !checked;
 
                       return (
                         <label
                           htmlFor={inputId}
-                          className={`option-item ${checked ? "selected" : ""}`}
+                          className={`option-item ${
+                            checked ? "selected" : ""
+                          } ${atCap ? "at-cap" : ""}`}
                           key={option}
                         >
                           <input
                             id={inputId}
-                            type="radio"
+                            type={isMulti ? "checkbox" : "radio"}
                             name={question.id}
                             value={option}
                             checked={checked}
-                            onChange={() => selectOption(question.id, option)}
+                            onChange={() =>
+                              selectOption(
+                                question.id,
+                                option,
+                                question.multiSelect,
+                                question.maxSelect
+                              )
+                            }
                           />
 
                           <span className="fake-option-check" aria-hidden="true">
@@ -443,8 +538,6 @@ export default function WaitlistPage() {
                   </div>
 
                   <label className="waitlist-field question-thought-field">
-                    {/* <span>Your thoughts (optional)</span> */}
-
                     <textarea
                       name={`${question.id}Thoughts`}
                       value={thoughtValue}
@@ -455,7 +548,9 @@ export default function WaitlistPage() {
                       rows={4}
                     />
 
-                    <small className="word-counter">{wordCount}/{MAX_WORDS}</small>
+                    <small className="word-counter">
+                      {wordCount}/{MAX_WORDS}
+                    </small>
                   </label>
                 </fieldset>
               );
@@ -490,7 +585,9 @@ export default function WaitlistPage() {
             <span className="fake-checkbox" aria-hidden="true" />
 
             <span>
-              {requiredLabel("I’m okay with Wheelers contacting me for early access, testing, or follow-up questions.")}
+              {requiredLabel(
+                "I'm okay with Wheelers contacting me for early access, testing, or follow-up questions."
+              )}
             </span>
           </label>
 

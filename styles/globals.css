@@ -221,7 +221,7 @@ button, input, textarea, select { font: inherit; }
   padding-left: 48px;
   padding-right: 48px;
 }
- 
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -1000,6 +1000,7 @@ hero-phone-intro {
 .hero-phone-price-meta span {
   color: rgba(13,13,13,0.68);
 }
+
 
 @media (max-width: 1200px) {
   .hero-device-stage {
@@ -4184,5 +4185,143 @@ hero-phone-intro {
     min-width: 34px;
     height: 30px;
     font-size: 9px;
+  }
+}
+/* ============================================================
+   WAITLIST TOOLTIP — DEFILLAMA STYLE
+   Add this at the BOTTOM of your existing CSS file.
+   It is scoped to .waitlist-page so it won't spoil other pages.
+   ============================================================ */
+
+.waitlist-page .waitlist-form,
+.waitlist-page .waitlist-question-stack,
+.waitlist-page .question-card,
+.waitlist-page .question-top {
+  overflow: visible;
+}
+
+.waitlist-page .question-card {
+  position: relative;
+}
+
+.waitlist-page .question-top {
+  position: relative;
+  z-index: 2;
+}
+
+.waitlist-page .question-legend {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--bk);
+}
+
+.waitlist-page .tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  z-index: 80;
+}
+
+.waitlist-page .tooltip-trigger {
+  width: 21px;
+  height: 21px;
+  border: 2px solid var(--bk);
+  border-radius: 999px;
+  background: #fffaf5;
+  color: var(--bk);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--bk);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.waitlist-page .tooltip-trigger:hover,
+.waitlist-page .tooltip-trigger:focus,
+.waitlist-page .tooltip-trigger.is-open {
+  background: var(--or);
+  color: #fff;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--bk);
+  outline: none;
+}
+
+.waitlist-page .tooltip-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  width: min(360px, 80vw);
+  padding: 14px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 7px;
+  background: #202124;
+  color: rgba(255, 255, 255, 0.94);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  z-index: 999;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.waitlist-page .tooltip-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border-width: 7px 7px 0 7px;
+  border-style: solid;
+  border-color: #202124 transparent transparent transparent;
+}
+
+@media (max-width: 768px) {
+  .waitlist-page .question-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .waitlist-page .tooltip-wrapper {
+    position: static;
+  }
+
+  .waitlist-page .tooltip-bubble {
+    left: 0;
+    right: auto;
+    top: 34px;
+    bottom: auto;
+    transform: none;
+    width: min(100%, 340px);
+  }
+
+  .waitlist-page .tooltip-bubble::after {
+    left: 18px;
+    top: auto;
+    bottom: 100%;
+    transform: none;
+    border-width: 0 7px 7px 7px;
+    border-color: transparent transparent #202124 transparent;
   }
 }
