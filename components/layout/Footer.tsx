@@ -3,15 +3,32 @@ import Link from "next/link";
 const footerColumns = [
   {
     title: "Product",
-    links: ["For Riders", "For Drivers", "DeFi Features", "Schedule Rides"],
+    links: [
+      { label: "For Riders", href: "/#riders" },
+      { label: "For Drivers", href: "/#drivers" },
+      { label: "DeFi Features", href: "/#features" },
+      { label: "Schedule Rides", href: "/#how" },
+    ],
   },
   {
     title: "Company",
-    links: ["About", "Blog", "Careers", "Press", "Community"],
+    links: [
+      { label: "About", href: "/#riders" },
+      { label: "Blog", href: "#" },
+      { label: "Careers", href: "#" },
+      { label: "Press", href: "#" },
+      { label: "Community", href: "#" },
+    ],
   },
   {
     title: "Support",
-    links: ["Help Center", "Safety", "Privacy Policy", "Terms of Service", "Contact"],
+    links: [
+      { label: "Help Center", href: "#" },
+      { label: "Safety", href: "#" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "#" },
+      { label: "Contact", href: "#" },
+    ],
   },
 ];
 
@@ -32,8 +49,8 @@ export default function Footer() {
           <div className="footer-col" key={column.title}>
             <h4>{column.title}</h4>
             {column.links.map((link) => (
-              <Link href="#" key={link}>
-                {link}
+              <Link href={link.href} key={link.label}>
+                {link.label}
               </Link>
             ))}
           </div>

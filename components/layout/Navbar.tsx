@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <nav className={`main-nav ${solid ? "solid" : ""}`} id="mainNav">
       <div className="nav-row">
-        <Link href="#" className="nav-logo" onClick={closeMenu}>
+        <Link href="/" className="nav-logo" onClick={closeMenu}>
           <div className="nav-orb">
             <span className="clash-display clash-display--mark">W</span>
           </div>
@@ -28,9 +28,9 @@ export default function Navbar() {
         </Link>
 
         <div className="nav-links">
-          <Link href="#riders">For Riders</Link>
-          <Link href="#drivers">For Drivers</Link>
-          <Link href="#how">How it works</Link>
+          <Link href="/#riders">For Riders</Link>
+          <Link href="/#drivers">For Drivers</Link>
+          <Link href="/#how">How it works</Link>
         </div>
 
         <Link href="/waitlist" className="nav-cta-btn syne">
@@ -51,13 +51,13 @@ export default function Navbar() {
       </div>
 
       <div className={`mobile-nav-menu ${open ? "open" : ""}`}>
-        <Link href="#riders" onClick={closeMenu}>
+        <Link href="/#riders" onClick={closeMenu}>
           For Riders
         </Link>
-        <Link href="#drivers" onClick={closeMenu}>
+        <Link href="/#drivers" onClick={closeMenu}>
           For Drivers
         </Link>
-        <Link href="#how" onClick={closeMenu}>
+        <Link href="/#how" onClick={closeMenu}>
           How it works
         </Link>
       </div>
