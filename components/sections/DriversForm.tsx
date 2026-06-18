@@ -58,24 +58,38 @@ type Question = {
   /** Text input instead of option selection */
   isTextInput?: boolean;
   textInputPlaceholder?: string;
+  /** Unique key override for React when the same id appears in multiple paths */
+  renderKey?: string;
 };
 
 /* ── survey questions ────────────────────────────────────── */
 
+/* helper — true when the driver answered "Yes" to ride-hailing */
+const isActive = (form: FormState) =>
+  form.currentlyDriving.includes("Yes");
+
+/* helper — true when the driver answered "No" */
+const isNotActive = (form: FormState) =>
+  form.currentlyDriving.includes("No");
+
 const questions: Question[] = [
-  // ─── Section 1: Driver Profile & Current Status ───
+  // ─── Q1 ───────────────────────────────────────────────
   {
     id: "currentlyDriving",
-
     title: "Current Ride-Hailing Status",
     section: "Driver Profile & Current Status",
     prompt: "Are you currently engaged in ride-hailing?",
     thoughtPlaceholder: "",
     options: ["Yes", "No"],
   },
+
+  // ═══════════════════════════════════════════════════════
+  //  "YES" PATH — active drivers get the full survey
+  // ═══════════════════════════════════════════════════════
+
+  // ── sub-questions under Q1 (Yes) ──
   {
     id: "platforms",
-
     title: "Current Platforms",
     section: "Driver Profile & Current Status",
     prompt:
@@ -85,34 +99,31 @@ const questions: Question[] = [
     maxSelect: 5,
     hasOtherOption: true,
     options: ["Uber", "Bolt", "InDriver", "LagRide"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
     isSub: true,
   },
   {
     id: "mostUsedPlatform",
-
     title: "Most Used Platform",
     section: "Driver Profile & Current Status",
     prompt: "Which platform do you use the most?",
     thoughtPlaceholder: "",
     options: ["Uber", "Bolt", "InDriver", "LagRide"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
     isSub: true,
   },
   {
     id: "ownsVehicle",
-
     title: "Vehicle Ownership",
     section: "Driver Profile & Current Status",
     prompt: "Do you own the vehicle you currently drive?",
     thoughtPlaceholder: "",
     options: ["Yes", "No — I want to lease a vehicle"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
     isSub: true,
   },
   {
     id: "vehicleArrangement",
-
     title: "Current Vehicle Arrangement",
     section: "Driver Profile & Current Status",
     prompt: "What arrangement are you currently using?",
@@ -124,25 +135,23 @@ const questions: Question[] = [
       "Driving for a fleet owner (salary/commission-based)",
     ],
     showWhen: (form) =>
-      form.currentlyDriving.includes("Yes") &&
+      isActive(form) &&
       form.ownsVehicle.includes("No — I want to lease a vehicle"),
     isSub: true,
   },
 
-  // ─── Section 2: Financial Performance ───
+  // ── Financial Performance (Yes only) ──
   {
     id: "dailyRides",
-
     title: "Average Daily Rides",
     section: "Financial Performance",
     prompt: "How many rides do you complete on an average day?",
     thoughtPlaceholder: "",
     options: ["1–5", "6–10", "11–15", "16–20", "20+"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "weeklyRevenue",
-
     title: "Weekly Revenue",
     section: "Financial Performance",
     prompt:
@@ -155,11 +164,10 @@ const questions: Question[] = [
       "₦250,000 – ₦300,000",
       "₦300,000+",
     ],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "weeklyProfit",
-
     title: "Weekly Profit",
     section: "Financial Performance",
     prompt:
@@ -172,24 +180,22 @@ const questions: Question[] = [
       "₦150,000 – ₦200,000",
       "₦200,000+",
     ],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
 
-  // ─── Section 3: Location & Operations ───
+  // ── Location & Operations (Yes only) ──
   {
     id: "operatingLocation",
-
     title: "Operating Location",
     section: "Location & Operations",
     prompt: "Where do you currently stay / operate from?",
     thoughtPlaceholder: "",
     hasOtherOption: true,
     options: ["Lagos Island", "Lagos Mainland", "Abuja", "Port Harcourt"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "sweetSpotArea",
-
     title: "Sweet Spot Area",
     section: "Location & Operations",
     prompt:
@@ -198,35 +204,32 @@ const questions: Question[] = [
       "Tell us the area or route where you get the best rides...",
     options: [],
     freeTextOnly: true,
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
 
-  // ─── Section 4: EV Interest & Lease Willingness ───
+  // ── EV Interest & Lease (Yes only) ──
   {
     id: "evEarningsBeliefs",
-
     title: "EV Earnings Potential",
     section: "EV Interest & Lease Willingness",
     prompt:
       "Do you believe you would earn more if you switched to an electric vehicle (EV)? (Consider: lower fuel costs, reduced maintenance, potential higher demand)",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "Not sure"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "leaseWillingness",
-
     title: "Lease Willingness",
     section: "EV Interest & Lease Willingness",
     prompt:
       "Would you be willing to take a vehicle lease for 24–36 months, with the option to own the vehicle at the end of the lease period?",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "I need more information"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "leaseRejectionReason",
-
     title: "Lease Concern",
     section: "EV Interest & Lease Willingness",
     prompt: "What is your primary reason for not taking the lease?",
@@ -241,23 +244,20 @@ const questions: Question[] = [
       "Worried about maintenance and repair costs for EVs",
     ],
     showWhen: (form) =>
-      form.currentlyDriving.includes("Yes") &&
-      form.leaseWillingness.includes("No"),
+      isActive(form) && form.leaseWillingness.includes("No"),
     isSub: true,
   },
   {
     id: "planningToJoin",
-
-    title: "Planning to Join",
+    title: "Interested in Joining",
     section: "EV Interest & Lease Willingness",
     prompt: "Are you planning on joining the Wheelers EV Driver Partnership?",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "Not sure — I need more information"],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "referralContact",
-
     title: "Know Someone Who Might Be Interested?",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -266,13 +266,11 @@ const questions: Question[] = [
     options: [],
     freeTextOnly: true,
     showWhen: (form) =>
-      form.currentlyDriving.includes("Yes") &&
-      form.planningToJoin.includes("No"),
+      isActive(form) && form.planningToJoin.includes("No"),
     isSub: true,
   },
   {
     id: "moreInfoNeeded",
-
     title: "What Would You Like to Know?",
     section: "EV Interest & Lease Willingness",
     prompt: "Select the areas you'd like more information on.",
@@ -288,15 +286,14 @@ const questions: Question[] = [
       "Charging infrastructure",
     ],
     showWhen: (form) =>
-      form.currentlyDriving.includes("Yes") &&
+      isActive(form) &&
       form.planningToJoin.includes("Not sure — I need more information"),
     isSub: true,
   },
 
-  // ─── Section 5: Platform Experience & Fairness ───
+  // ── Platform Experience & Fairness (Yes only) ──
   {
     id: "platformPainPoints",
-
     title: "Platform Pain Points",
     section: "Platform Experience & Fairness",
     prompt:
@@ -315,11 +312,10 @@ const questions: Question[] = [
       "Fuel price volatility",
       "No benefits or insurance coverage",
     ],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "fairCommission",
-
     title: "Fair Commission",
     section: "Platform Experience & Fairness",
     prompt:
@@ -328,13 +324,12 @@ const questions: Question[] = [
     options: [],
     isTextInput: true,
     textInputPlaceholder: "e.g. 15",
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
 
-  // ─── Section 6: Additional Feedback ───
+  // ── Additional Feedback (Yes only, except additionalComments) ──
   {
     id: "vehicleOwnershipImportance",
-
     title: "Vehicle Ownership Goal",
     section: "Additional Feedback",
     prompt: "How important is vehicle ownership to you as a long-term goal?",
@@ -344,11 +339,10 @@ const questions: Question[] = [
       "Somewhat important",
       "Not important — I prefer flexibility",
     ],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
   },
   {
     id: "evTransitionSupport",
-
     title: "EV Transition Support",
     section: "Additional Feedback",
     prompt:
@@ -365,11 +359,118 @@ const questions: Question[] = [
       "Flexible lease payment terms",
       "Guaranteed minimum daily earnings",
     ],
-    showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    showWhen: isActive,
+  },
+
+  // ═══════════════════════════════════════════════════════
+  //  "NO" PATH — non-active drivers
+  // ═══════════════════════════════════════════════════════
+
+  {
+    id: "planningToJoin",
+    renderKey: "planningToJoin-no",
+    title: "Interested in Joining",
+    section: "Getting Started",
+    prompt: "Are you planning on joining the Wheelers EV Driver Partnership?",
+    thoughtPlaceholder: "",
+    options: ["Yes", "No", "Not sure — I need more information"],
+    showWhen: isNotActive,
+  },
+
+  // No path → Yes on planning → vehicle question
+  {
+    id: "ownsVehicle",
+    renderKey: "ownsVehicle-no",
+    title: "Do You Have Your Own Vehicle?",
+    section: "Getting Started",
+    prompt: "Do you currently own a vehicle you could use for ride-hailing?",
+    thoughtPlaceholder: "",
+    options: ["Yes", "No — I want to lease a vehicle"],
+    showWhen: (form) =>
+      isNotActive(form) && form.planningToJoin.includes("Yes"),
+    isSub: true,
   },
   {
-    id: "additionalComments",
+    id: "leaseWillingness",
+    renderKey: "leaseWillingness-no",
+    title: "Lease Willingness",
+    section: "Getting Started",
+    prompt:
+      "Would you be willing to take a vehicle lease for 24–36 months, with the option to own the vehicle at the end of the lease period?",
+    thoughtPlaceholder: "",
+    options: ["Yes", "No", "I need more information"],
+    showWhen: (form) =>
+      isNotActive(form) && form.planningToJoin.includes("Yes"),
+    isSub: true,
+  },
+  {
+    id: "leaseRejectionReason",
+    renderKey: "leaseRejectionReason-no",
+    title: "Lease Concern",
+    section: "Getting Started",
+    prompt: "What is your primary reason for not taking the lease?",
+    thoughtPlaceholder: "",
+    hasOtherOption: true,
+    options: [
+      "Lease duration is too long (24–36 months)",
+      "Concerns about EV charging infrastructure",
+      "Doubt about EV reliability in Nigeria",
+      "Cannot afford the weekly/monthly lease payments",
+      "Prefer to own a vehicle outright from the start",
+      "Worried about maintenance and repair costs for EVs",
+    ],
+    showWhen: (form) =>
+      isNotActive(form) &&
+      form.planningToJoin.includes("Yes") &&
+      form.leaseWillingness.includes("No"),
+    isSub: true,
+  },
 
+  // No path → No on planning → referral
+  {
+    id: "referralContact",
+    renderKey: "referralContact-no",
+    title: "Know Someone Who Might Be Interested?",
+    section: "Getting Started",
+    prompt:
+      "Share their name and phone number and we'll reach out to them.",
+    thoughtPlaceholder: "e.g. Chidi — 08012345678",
+    options: [],
+    freeTextOnly: true,
+    showWhen: (form) =>
+      isNotActive(form) && form.planningToJoin.includes("No"),
+    isSub: true,
+  },
+
+  // No path → Not sure → what do you want to know
+  {
+    id: "moreInfoNeeded",
+    renderKey: "moreInfoNeeded-no",
+    title: "What Would You Like to Know?",
+    section: "Getting Started",
+    prompt: "Select the areas you'd like more information on.",
+    thoughtPlaceholder: "",
+    multiSelect: true,
+    maxSelect: 6,
+    hasOtherOption: true,
+    options: [
+      "Revenue potential",
+      "Profit breakdown",
+      "Cost of operations",
+      "Vehicle financing / lease terms",
+      "Charging infrastructure",
+    ],
+    showWhen: (form) =>
+      isNotActive(form) &&
+      form.planningToJoin.includes("Not sure — I need more information"),
+    isSub: true,
+  },
+
+  // ═══════════════════════════════════════════════════════
+  //  ALWAYS VISIBLE
+  // ═══════════════════════════════════════════════════════
+  {
+    id: "additionalComments",
     title: "Additional Comments",
     section: "Additional Feedback",
     prompt: "Any additional comments or suggestions for Wheelers?",
@@ -878,7 +979,7 @@ export default function DriversPage() {
                     return (
                       <fieldset
                         className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
-                        key={question.id}
+                        key={question.renderKey ?? question.id}
                       >
                         <div className="question-top">
                           {question.displayNumber && (
@@ -935,7 +1036,7 @@ export default function DriversPage() {
                     return (
                       <fieldset
                         className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
-                        key={question.id}
+                        key={question.renderKey ?? question.id}
                       >
                         <div className="question-top">
                           {question.displayNumber && (
@@ -996,7 +1097,7 @@ export default function DriversPage() {
                   return (
                     <fieldset
                       className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
-                      key={question.id}
+                      key={question.renderKey ?? question.id}
                     >
                       <div className="question-top">
                         {question.displayNumber && (

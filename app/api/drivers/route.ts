@@ -174,41 +174,62 @@ function isQuestionRequired(
     ? payload.planningToJoin
     : [];
 
+  const isActive = currentlyDriving.includes("Yes");
+  const isNotActive = currentlyDriving.includes("No");
+
   switch (field) {
-    // Everything except currentlyDriving and text fields requires "Yes"
+    // ── Yes-path only ──
     case "platforms":
     case "mostUsedPlatform":
-    case "ownsVehicle":
     case "dailyRides":
     case "weeklyRevenue":
     case "weeklyProfit":
     case "operatingLocation":
     case "platformPainPoints":
     case "evEarningsBeliefs":
-    case "planningToJoin":
     case "vehicleOwnershipImportance":
     case "evTransitionSupport":
-      return currentlyDriving.includes("Yes");
+      return isActive;
 
     case "vehicleArrangement":
       return (
-        currentlyDriving.includes("Yes") &&
+        isActive &&
         ownsVehicle.includes("No — I want to lease a vehicle")
       );
 
+    // ── Shared fields (appear in both paths) ──
+    case "planningToJoin":
+      // Yes path: always shown. No path: always shown.
+      return isActive || isNotActive;
+
+    case "ownsVehicle":
+      // Yes path: sub of Q1. No path: sub of planningToJoin=Yes.
+      return (
+        isActive ||
+        (isNotActive && planningToJoin.includes("Yes"))
+      );
+
     case "leaseWillingness":
-      return currentlyDriving.includes("Yes");
+      // Yes path: always. No path: planningToJoin=Yes.
+      return (
+        isActive ||
+        (isNotActive && planningToJoin.includes("Yes"))
+      );
 
     case "leaseRejectionReason":
       return (
-        currentlyDriving.includes("Yes") &&
-        leaseWillingness.includes("No")
+        (isActive && leaseWillingness.includes("No")) ||
+        (isNotActive &&
+          planningToJoin.includes("Yes") &&
+          leaseWillingness.includes("No"))
       );
 
     case "moreInfoNeeded":
       return (
-        currentlyDriving.includes("Yes") &&
-        planningToJoin.includes("Not sure — I need more information")
+        (isActive &&
+          planningToJoin.includes("Not sure — I need more information")) ||
+        (isNotActive &&
+          planningToJoin.includes("Not sure — I need more information"))
       );
 
     // currentlyDriving is always required
