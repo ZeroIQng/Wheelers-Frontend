@@ -4518,3 +4518,43 @@ hero-phone-intro {
     border-color: transparent transparent #202124 transparent;
   }
 }
+
+/* ============================================================
+   DRIVERS SURVEY — EXTRA STYLES
+   Section labels + "Other" text input. Everything else reuses
+   the .waitlist-page scoped rules above.
+   ============================================================ */
+
+.waitlist-page .drivers-section-label {
+  margin-top: 28px;
+  margin-bottom: 14px;
+  padding: 10px 16px;
+  border: var(--bd-thin);
+  border-radius: var(--rd-sm);
+  background: var(--or3);
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--or);
+}
+
+.waitlist-page .drivers-section-label:first-child {
+  margin-top: 0;
+}
+
+.waitlist-page .drivers-other-field {
+  margin-top: 8px;
+  margin-left: 33px;
+}
+
+.waitlist-page .drivers-other-field input {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .waitlist-page .drivers-other-field {
+    margin-left: 0;
+  }
+}

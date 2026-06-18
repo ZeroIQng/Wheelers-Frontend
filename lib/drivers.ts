@@ -1,0 +1,43 @@
+export const driverQuestionIds = [
+  "currentlyDriving",
+  "platforms",
+  "mostUsedPlatform",
+  "ownsVehicle",
+  "vehicleArrangement",
+  "dailyRides",
+  "weeklyRevenue",
+  "weeklyProfit",
+  "operatingLocation",
+  "sweetSpotArea",
+  "evEarningsBeliefs",
+  "leaseWillingness",
+  "leaseRejectionReason",
+  "platformPainPoints",
+  "fairCommission",
+  "vehicleOwnershipImportance",
+  "evTransitionSupport",
+  "additionalComments",
+] as const;
+
+export type DriverQuestionId = (typeof driverQuestionIds)[number];
+
+export const driverQuestionLabels: Record<DriverQuestionId, string> = {
+  currentlyDriving: "Current Ride-Hailing Status",
+  platforms: "Current Platforms",
+  mostUsedPlatform: "Most Used Platform",
+  ownsVehicle: "Vehicle Ownership",
+  vehicleArrangement: "Vehicle Arrangement",
+  dailyRides: "Average Daily Rides",
+  weeklyRevenue: "Weekly Revenue",
+  weeklyProfit: "Weekly Profit",
+  operatingLocation: "Operating Location",
+  sweetSpotArea: "Sweet Spot Area",
+  evEarningsBeliefs: "EV Earnings Beliefs",
+  leaseWillingness: "Lease Willingness",
+  leaseRejectionReason: "Lease Rejection Reason",
+  platformPainPoints: "Platform Pain Points",
+  fairCommission: "Fair Commission",
+  vehicleOwnershipImportance: "Vehicle Ownership Importance",
+  evTransitionSupport: "EV Transition Support",
+  additionalComments: "Additional Comments",
+};
