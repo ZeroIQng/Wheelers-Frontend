@@ -42,7 +42,6 @@ type FormState = {
 
 type Question = {
   id: DriverQuestionId;
-  number: string;
   title: string;
   prompt: string;
   options: string[];
@@ -67,7 +66,7 @@ const questions: Question[] = [
   // ─── Section 1: Driver Profile & Current Status ───
   {
     id: "currentlyDriving",
-    number: "01",
+
     title: "Current Ride-Hailing Status",
     section: "Driver Profile & Current Status",
     prompt: "Are you currently engaged in ride-hailing?",
@@ -76,7 +75,7 @@ const questions: Question[] = [
   },
   {
     id: "platforms",
-    number: "",
+
     title: "Current Platforms",
     section: "Driver Profile & Current Status",
     prompt:
@@ -91,7 +90,7 @@ const questions: Question[] = [
   },
   {
     id: "mostUsedPlatform",
-    number: "",
+
     title: "Most Used Platform",
     section: "Driver Profile & Current Status",
     prompt: "Which platform do you use the most?",
@@ -102,7 +101,7 @@ const questions: Question[] = [
   },
   {
     id: "ownsVehicle",
-    number: "",
+
     title: "Vehicle Ownership",
     section: "Driver Profile & Current Status",
     prompt: "Do you own the vehicle you currently drive?",
@@ -113,7 +112,7 @@ const questions: Question[] = [
   },
   {
     id: "vehicleArrangement",
-    number: "",
+
     title: "Vehicle Arrangement",
     section: "Driver Profile & Current Status",
     prompt: "What arrangement are you currently using?",
@@ -133,7 +132,7 @@ const questions: Question[] = [
   // ─── Section 2: Financial Performance ───
   {
     id: "dailyRides",
-    number: "02",
+
     title: "Average Daily Rides",
     section: "Financial Performance",
     prompt: "How many rides do you complete on an average day?",
@@ -143,7 +142,7 @@ const questions: Question[] = [
   },
   {
     id: "weeklyRevenue",
-    number: "03",
+
     title: "Weekly Revenue",
     section: "Financial Performance",
     prompt:
@@ -160,7 +159,7 @@ const questions: Question[] = [
   },
   {
     id: "weeklyProfit",
-    number: "04",
+
     title: "Weekly Profit",
     section: "Financial Performance",
     prompt:
@@ -179,7 +178,7 @@ const questions: Question[] = [
   // ─── Section 3: Location & Operations ───
   {
     id: "operatingLocation",
-    number: "05",
+
     title: "Operating Location",
     section: "Location & Operations",
     prompt: "Where do you currently stay / operate from?",
@@ -189,7 +188,7 @@ const questions: Question[] = [
   },
   {
     id: "sweetSpotArea",
-    number: "06",
+
     title: "Sweet Spot Area",
     section: "Location & Operations",
     prompt:
@@ -203,7 +202,7 @@ const questions: Question[] = [
   // ─── Section 4: EV Interest & Lease Willingness ───
   {
     id: "evEarningsBeliefs",
-    number: "07",
+
     title: "EV Earnings Potential",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -213,7 +212,7 @@ const questions: Question[] = [
   },
   {
     id: "leaseWillingness",
-    number: "08",
+
     title: "Lease Willingness",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -226,7 +225,7 @@ const questions: Question[] = [
   },
   {
     id: "leaseRejectionReason",
-    number: "09",
+
     title: "Lease Concern",
     section: "EV Interest & Lease Willingness",
     prompt: "What is your primary reason for not taking the lease?",
@@ -244,7 +243,7 @@ const questions: Question[] = [
   },
   {
     id: "planningToJoin",
-    number: "10",
+
     title: "Planning to Join",
     section: "EV Interest & Lease Willingness",
     prompt: "Are you planning on joining the Wheelers EV Driver Partnership?",
@@ -253,7 +252,7 @@ const questions: Question[] = [
   },
   {
     id: "referralContact",
-    number: "",
+
     title: "Referral",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -266,7 +265,7 @@ const questions: Question[] = [
   },
   {
     id: "moreInfoNeeded",
-    number: "",
+
     title: "What Do You Want to Know?",
     section: "EV Interest & Lease Willingness",
     prompt: "What would you like to know more about?",
@@ -289,7 +288,7 @@ const questions: Question[] = [
   // ─── Section 5: Platform Experience & Fairness ───
   {
     id: "platformPainPoints",
-    number: "11",
+
     title: "Platform Pain Points",
     section: "Platform Experience & Fairness",
     prompt:
@@ -311,7 +310,7 @@ const questions: Question[] = [
   },
   {
     id: "fairCommission",
-    number: "12",
+
     title: "Fair Commission",
     section: "Platform Experience & Fairness",
     prompt:
@@ -325,7 +324,7 @@ const questions: Question[] = [
   // ─── Section 6: Additional Feedback ───
   {
     id: "vehicleOwnershipImportance",
-    number: "13",
+
     title: "Vehicle Ownership Goal",
     section: "Additional Feedback",
     prompt: "How important is vehicle ownership to you as a long-term goal?",
@@ -338,7 +337,7 @@ const questions: Question[] = [
   },
   {
     id: "evTransitionSupport",
-    number: "14",
+
     title: "EV Transition Support",
     section: "Additional Feedback",
     prompt:
@@ -358,7 +357,7 @@ const questions: Question[] = [
   },
   {
     id: "additionalComments",
-    number: "15",
+
     title: "Additional Comments",
     section: "Additional Feedback",
     prompt: "Any additional comments or suggestions for Wheelers?",
@@ -628,17 +627,31 @@ export default function DriversPage() {
     }));
   }
 
-  /* ── visible questions ─────────────────────────────────── */
+  /* ── visible questions with dynamic numbering ────────── */
 
   const visibleQuestions = questions.filter(
     (q) => !q.showWhen || q.showWhen(form),
   );
 
-  /* ── section grouping for display ──────────────────────── */
-
-  const sections: { label: string; questions: Question[] }[] = [];
+  // Assign sequential numbers (1, 2, 3...) to non-sub questions only
+  const numberedQuestions: (Question & { displayNumber: string })[] = [];
+  let counter = 1;
 
   for (const question of visibleQuestions) {
+    if (question.isSub) {
+      numberedQuestions.push({ ...question, displayNumber: "" });
+    } else {
+      numberedQuestions.push({ ...question, displayNumber: String(counter) });
+      counter++;
+    }
+  }
+
+  /* ── section grouping for display ──────────────────────── */
+
+  type NumberedQuestion = (typeof numberedQuestions)[number];
+  const sections: { label: string; questions: NumberedQuestion[] }[] = [];
+
+  for (const question of numberedQuestions) {
     const sectionLabel = question.section ?? "";
     const last = sections[sections.length - 1];
 
@@ -856,9 +869,9 @@ export default function DriversPage() {
                         key={question.id}
                       >
                         <div className="question-top">
-                          {question.number && (
+                          {question.displayNumber && (
                             <span className="question-number mono">
-                              {question.number}
+                              {question.displayNumber}
                             </span>
                           )}
 
@@ -913,9 +926,9 @@ export default function DriversPage() {
                         key={question.id}
                       >
                         <div className="question-top">
-                          {question.number && (
+                          {question.displayNumber && (
                             <span className="question-number mono">
-                              {question.number}
+                              {question.displayNumber}
                             </span>
                           )}
 
@@ -974,9 +987,9 @@ export default function DriversPage() {
                       key={question.id}
                     >
                       <div className="question-top">
-                        {question.number && (
+                        {question.displayNumber && (
                           <span className="question-number mono">
-                            {question.number}
+                            {question.displayNumber}
                           </span>
                         )}
 
