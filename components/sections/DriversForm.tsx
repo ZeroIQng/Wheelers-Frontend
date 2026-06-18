@@ -106,14 +106,14 @@ const questions: Question[] = [
     section: "Driver Profile & Current Status",
     prompt: "Do you own the vehicle you currently drive?",
     thoughtPlaceholder: "",
-    options: ["Yes", "No"],
+    options: ["Yes", "No — I want to lease a vehicle"],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
     isSub: true,
   },
   {
     id: "vehicleArrangement",
 
-    title: "Vehicle Arrangement",
+    title: "Current Vehicle Arrangement",
     section: "Driver Profile & Current Status",
     prompt: "What arrangement are you currently using?",
     thoughtPlaceholder: "",
@@ -125,7 +125,7 @@ const questions: Question[] = [
     ],
     showWhen: (form) =>
       form.currentlyDriving.includes("Yes") &&
-      form.ownsVehicle.includes("No"),
+      form.ownsVehicle.includes("No — I want to lease a vehicle"),
     isSub: true,
   },
 
@@ -222,10 +222,7 @@ const questions: Question[] = [
       "Would you be willing to take a vehicle lease for 24–36 months, with the option to own the vehicle at the end of the lease period?",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "I need more information"],
-    showWhen: (form) =>
-      form.currentlyDriving.includes("Yes") &&
-      (form.evEarningsBeliefs.includes("Yes") ||
-        form.evEarningsBeliefs.includes("Not sure")),
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "leaseRejectionReason",
@@ -246,6 +243,7 @@ const questions: Question[] = [
     showWhen: (form) =>
       form.currentlyDriving.includes("Yes") &&
       form.leaseWillingness.includes("No"),
+    isSub: true,
   },
   {
     id: "planningToJoin",
@@ -260,10 +258,10 @@ const questions: Question[] = [
   {
     id: "referralContact",
 
-    title: "Referral",
+    title: "Know Someone Who Might Be Interested?",
     section: "EV Interest & Lease Willingness",
     prompt:
-      "Do you have any friends or family who might be interested? Share their name and phone number so we can reach out.",
+      "Share their name and phone number and we'll reach out to them.",
     thoughtPlaceholder: "e.g. Chidi — 08012345678",
     options: [],
     freeTextOnly: true,
@@ -275,9 +273,9 @@ const questions: Question[] = [
   {
     id: "moreInfoNeeded",
 
-    title: "What Do You Want to Know?",
+    title: "What Would You Like to Know?",
     section: "EV Interest & Lease Willingness",
-    prompt: "What would you like to know more about?",
+    prompt: "Select the areas you'd like more information on.",
     thoughtPlaceholder: "",
     multiSelect: true,
     maxSelect: 6,

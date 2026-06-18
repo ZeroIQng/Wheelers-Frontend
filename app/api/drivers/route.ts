@@ -192,15 +192,12 @@ function isQuestionRequired(
 
     case "vehicleArrangement":
       return (
-        currentlyDriving.includes("Yes") && ownsVehicle.includes("No")
+        currentlyDriving.includes("Yes") &&
+        ownsVehicle.includes("No — I want to lease a vehicle")
       );
 
     case "leaseWillingness":
-      return (
-        currentlyDriving.includes("Yes") &&
-        (evEarningsBeliefs.includes("Yes") ||
-          evEarningsBeliefs.includes("Not sure"))
-      );
+      return currentlyDriving.includes("Yes");
 
     case "leaseRejectionReason":
       return (
