@@ -185,6 +185,7 @@ const questions: Question[] = [
     thoughtPlaceholder: "",
     hasOtherOption: true,
     options: ["Lagos Island", "Lagos Mainland", "Abuja", "Port Harcourt"],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "sweetSpotArea",
@@ -197,6 +198,7 @@ const questions: Question[] = [
       "Tell us the area or route where you get the best rides...",
     options: [],
     freeTextOnly: true,
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
 
   // ─── Section 4: EV Interest & Lease Willingness ───
@@ -307,6 +309,7 @@ const questions: Question[] = [
       "Fuel price volatility",
       "No benefits or insurance coverage",
     ],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "fairCommission",
@@ -319,6 +322,7 @@ const questions: Question[] = [
     options: [],
     isTextInput: true,
     textInputPlaceholder: "e.g. 15",
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
 
   // ─── Section 6: Additional Feedback ───

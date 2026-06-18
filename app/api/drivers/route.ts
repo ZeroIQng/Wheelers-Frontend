@@ -181,6 +181,8 @@ function isQuestionRequired(
     case "dailyRides":
     case "weeklyRevenue":
     case "weeklyProfit":
+    case "operatingLocation":
+    case "platformPainPoints":
       return currentlyDriving.includes("Yes");
 
     case "vehicleArrangement":
