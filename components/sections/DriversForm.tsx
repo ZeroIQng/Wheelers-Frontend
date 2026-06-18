@@ -211,6 +211,7 @@ const questions: Question[] = [
       "Do you believe you would earn more if you switched to an electric vehicle (EV)? (Consider: lower fuel costs, reduced maintenance, potential higher demand)",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "Not sure"],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "leaseWillingness",
@@ -222,8 +223,9 @@ const questions: Question[] = [
     thoughtPlaceholder: "",
     options: ["Yes", "No", "I need more information"],
     showWhen: (form) =>
-      form.evEarningsBeliefs.includes("Yes") ||
-      form.evEarningsBeliefs.includes("Not sure"),
+      form.currentlyDriving.includes("Yes") &&
+      (form.evEarningsBeliefs.includes("Yes") ||
+        form.evEarningsBeliefs.includes("Not sure")),
   },
   {
     id: "leaseRejectionReason",
@@ -241,7 +243,9 @@ const questions: Question[] = [
       "Prefer to own a vehicle outright from the start",
       "Worried about maintenance and repair costs for EVs",
     ],
-    showWhen: (form) => form.leaseWillingness.includes("No"),
+    showWhen: (form) =>
+      form.currentlyDriving.includes("Yes") &&
+      form.leaseWillingness.includes("No"),
   },
   {
     id: "planningToJoin",
@@ -251,6 +255,7 @@ const questions: Question[] = [
     prompt: "Are you planning on joining the Wheelers EV Driver Partnership?",
     thoughtPlaceholder: "",
     options: ["Yes", "No", "Not sure — I need more information"],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "referralContact",
@@ -262,7 +267,9 @@ const questions: Question[] = [
     thoughtPlaceholder: "e.g. Chidi — 08012345678",
     options: [],
     freeTextOnly: true,
-    showWhen: (form) => form.planningToJoin.includes("No"),
+    showWhen: (form) =>
+      form.currentlyDriving.includes("Yes") &&
+      form.planningToJoin.includes("No"),
     isSub: true,
   },
   {
@@ -283,6 +290,7 @@ const questions: Question[] = [
       "Charging infrastructure",
     ],
     showWhen: (form) =>
+      form.currentlyDriving.includes("Yes") &&
       form.planningToJoin.includes("Not sure — I need more information"),
     isSub: true,
   },
@@ -338,6 +346,7 @@ const questions: Question[] = [
       "Somewhat important",
       "Not important — I prefer flexibility",
     ],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "evTransitionSupport",
@@ -358,6 +367,7 @@ const questions: Question[] = [
       "Flexible lease payment terms",
       "Guaranteed minimum daily earnings",
     ],
+    showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "additionalComments",

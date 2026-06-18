@@ -175,6 +175,7 @@ function isQuestionRequired(
     : [];
 
   switch (field) {
+    // Everything except currentlyDriving and text fields requires "Yes"
     case "platforms":
     case "mostUsedPlatform":
     case "ownsVehicle":
@@ -183,6 +184,10 @@ function isQuestionRequired(
     case "weeklyProfit":
     case "operatingLocation":
     case "platformPainPoints":
+    case "evEarningsBeliefs":
+    case "planningToJoin":
+    case "vehicleOwnershipImportance":
+    case "evTransitionSupport":
       return currentlyDriving.includes("Yes");
 
     case "vehicleArrangement":
@@ -192,21 +197,29 @@ function isQuestionRequired(
 
     case "leaseWillingness":
       return (
-        evEarningsBeliefs.includes("Yes") ||
-        evEarningsBeliefs.includes("Not sure")
+        currentlyDriving.includes("Yes") &&
+        (evEarningsBeliefs.includes("Yes") ||
+          evEarningsBeliefs.includes("Not sure"))
       );
 
     case "leaseRejectionReason":
-      return leaseWillingness.includes("No");
-
-    case "moreInfoNeeded":
-      return planningToJoin.includes(
-        "Not sure — I need more information",
+      return (
+        currentlyDriving.includes("Yes") &&
+        leaseWillingness.includes("No")
       );
 
-    // All other questions are always required
-    default:
+    case "moreInfoNeeded":
+      return (
+        currentlyDriving.includes("Yes") &&
+        planningToJoin.includes("Not sure — I need more information")
+      );
+
+    // currentlyDriving is always required
+    case "currentlyDriving":
       return true;
+
+    default:
+      return false;
   }
 }
 
