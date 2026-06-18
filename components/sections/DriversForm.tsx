@@ -7,7 +7,7 @@ import { FormEvent, useMemo, useState } from "react";
 
 const MAX_WORDS = 250;
 
-/* ── section‑level types ─────────────────────────────────── */
+/* ── types ───────────────────────────────────────────────── */
 
 type QuestionThoughts = Record<DriverQuestionId, string>;
 
@@ -28,8 +28,11 @@ type FormState = {
   evEarningsBeliefs: string[];
   leaseWillingness: string[];
   leaseRejectionReason: string[];
+  planningToJoin: string[];
+  referralContact: string;
+  moreInfoNeeded: string[];
   platformPainPoints: string[];
-  fairCommission: string[];
+  fairCommission: string;
   vehicleOwnershipImportance: string[];
   evTransitionSupport: string[];
   additionalComments: string;
@@ -49,16 +52,19 @@ type Question = {
   tooltip?: string;
   hasOtherOption?: boolean;
   section?: string;
-  /** If set, question is only shown when condition is met */
   showWhen?: (form: FormState) => boolean;
-  /** If true, this is a free-text-only question (no options) */
   freeTextOnly?: boolean;
+  /** Sub-question — no number badge, indented under parent */
+  isSub?: boolean;
+  /** Text input instead of option selection */
+  isTextInput?: boolean;
+  textInputPlaceholder?: string;
 };
 
 /* ── survey questions ────────────────────────────────────── */
 
 const questions: Question[] = [
-  // Section 1: Driver Profile & Current Status
+  // ─── Section 1: Driver Profile & Current Status ───
   {
     id: "currentlyDriving",
     number: "01",
@@ -70,7 +76,7 @@ const questions: Question[] = [
   },
   {
     id: "platforms",
-    number: "02",
+    number: "",
     title: "Current Platforms",
     section: "Driver Profile & Current Status",
     prompt:
@@ -81,30 +87,33 @@ const questions: Question[] = [
     hasOtherOption: true,
     options: ["Uber", "Bolt", "InDriver", "LagRide"],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    isSub: true,
   },
   {
     id: "mostUsedPlatform",
-    number: "03",
+    number: "",
     title: "Most Used Platform",
     section: "Driver Profile & Current Status",
     prompt: "Which platform do you use the most?",
     thoughtPlaceholder: "",
     options: ["Uber", "Bolt", "InDriver", "LagRide"],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    isSub: true,
   },
   {
     id: "ownsVehicle",
-    number: "04",
+    number: "",
     title: "Vehicle Ownership",
     section: "Driver Profile & Current Status",
     prompt: "Do you own the vehicle you currently drive?",
     thoughtPlaceholder: "",
     options: ["Yes", "No"],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
+    isSub: true,
   },
   {
     id: "vehicleArrangement",
-    number: "05",
+    number: "",
     title: "Vehicle Arrangement",
     section: "Driver Profile & Current Status",
     prompt: "What arrangement are you currently using?",
@@ -118,12 +127,13 @@ const questions: Question[] = [
     showWhen: (form) =>
       form.currentlyDriving.includes("Yes") &&
       form.ownsVehicle.includes("No"),
+    isSub: true,
   },
 
-  // Section 2: Financial Performance
+  // ─── Section 2: Financial Performance ───
   {
     id: "dailyRides",
-    number: "06",
+    number: "02",
     title: "Average Daily Rides",
     section: "Financial Performance",
     prompt: "How many rides do you complete on an average day?",
@@ -133,43 +143,43 @@ const questions: Question[] = [
   },
   {
     id: "weeklyRevenue",
-    number: "07",
+    number: "03",
     title: "Weekly Revenue",
     section: "Financial Performance",
     prompt:
       "What is your average weekly revenue? (Total earnings before deducting operational costs such as platform fees, fuel, maintenance, and any lease/rental payments)",
     thoughtPlaceholder: "",
     options: [
-      "₦10,000 – ₦25,000",
-      "₦25,001 – ₦50,000",
-      "₦50,001 – ₦75,000",
-      "₦75,001 – ₦100,000",
-      "₦100,000+",
+      "₦100,000 – ₦150,000",
+      "₦150,000 – ₦200,000",
+      "₦200,000 – ₦250,000",
+      "₦250,000 – ₦300,000",
+      "₦300,000+",
     ],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
   {
     id: "weeklyProfit",
-    number: "08",
+    number: "04",
     title: "Weekly Profit",
     section: "Financial Performance",
     prompt:
       "What is your average weekly profit? (Revenue minus all operational costs including fuel, maintenance, platform fees, and vehicle rental/lease payments)",
     thoughtPlaceholder: "",
     options: [
-      "₦0 – ₦10,000",
-      "₦10,001 – ₦25,000",
-      "₦25,001 – ₦50,000",
-      "₦50,001 – ₦75,000",
-      "₦75,000+",
+      "₦25,000 – ₦50,000",
+      "₦50,000 – ₦100,000",
+      "₦100,000 – ₦150,000",
+      "₦150,000 – ₦200,000",
+      "₦200,000+",
     ],
     showWhen: (form) => form.currentlyDriving.includes("Yes"),
   },
 
-  // Section 3: Location & Operations
+  // ─── Section 3: Location & Operations ───
   {
     id: "operatingLocation",
-    number: "09",
+    number: "05",
     title: "Operating Location",
     section: "Location & Operations",
     prompt: "Where do you currently stay / operate from?",
@@ -179,7 +189,7 @@ const questions: Question[] = [
   },
   {
     id: "sweetSpotArea",
-    number: "10",
+    number: "06",
     title: "Sweet Spot Area",
     section: "Location & Operations",
     prompt:
@@ -190,10 +200,10 @@ const questions: Question[] = [
     freeTextOnly: true,
   },
 
-  // Section 4: EV Interest & Lease Willingness
+  // ─── Section 4: EV Interest & Lease Willingness ───
   {
     id: "evEarningsBeliefs",
-    number: "11",
+    number: "07",
     title: "EV Earnings Potential",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -203,7 +213,7 @@ const questions: Question[] = [
   },
   {
     id: "leaseWillingness",
-    number: "12",
+    number: "08",
     title: "Lease Willingness",
     section: "EV Interest & Lease Willingness",
     prompt:
@@ -216,7 +226,7 @@ const questions: Question[] = [
   },
   {
     id: "leaseRejectionReason",
-    number: "13",
+    number: "09",
     title: "Lease Concern",
     section: "EV Interest & Lease Willingness",
     prompt: "What is your primary reason for not taking the lease?",
@@ -232,11 +242,54 @@ const questions: Question[] = [
     ],
     showWhen: (form) => form.leaseWillingness.includes("No"),
   },
+  {
+    id: "planningToJoin",
+    number: "10",
+    title: "Planning to Join",
+    section: "EV Interest & Lease Willingness",
+    prompt: "Are you planning on joining the Wheelers EV Driver Partnership?",
+    thoughtPlaceholder: "",
+    options: ["Yes", "No", "Not sure — I need more information"],
+  },
+  {
+    id: "referralContact",
+    number: "",
+    title: "Referral",
+    section: "EV Interest & Lease Willingness",
+    prompt:
+      "Do you have any friends or family who might be interested? Share their name and phone number so we can reach out.",
+    thoughtPlaceholder: "e.g. Chidi — 08012345678",
+    options: [],
+    freeTextOnly: true,
+    showWhen: (form) => form.planningToJoin.includes("No"),
+    isSub: true,
+  },
+  {
+    id: "moreInfoNeeded",
+    number: "",
+    title: "What Do You Want to Know?",
+    section: "EV Interest & Lease Willingness",
+    prompt: "What would you like to know more about?",
+    thoughtPlaceholder: "",
+    multiSelect: true,
+    maxSelect: 6,
+    hasOtherOption: true,
+    options: [
+      "Revenue potential",
+      "Profit breakdown",
+      "Cost of operations",
+      "Vehicle financing / lease terms",
+      "Charging infrastructure",
+    ],
+    showWhen: (form) =>
+      form.planningToJoin.includes("Not sure — I need more information"),
+    isSub: true,
+  },
 
-  // Section 5: Platform Experience & Fairness
+  // ─── Section 5: Platform Experience & Fairness ───
   {
     id: "platformPainPoints",
-    number: "14",
+    number: "11",
     title: "Platform Pain Points",
     section: "Platform Experience & Fairness",
     prompt:
@@ -258,26 +311,21 @@ const questions: Question[] = [
   },
   {
     id: "fairCommission",
-    number: "15",
+    number: "12",
     title: "Fair Commission",
     section: "Platform Experience & Fairness",
     prompt:
-      "What platform commission fee do you consider fair and sustainable for you as a driver?",
+      "What platform commission fee (%) do you consider fair and sustainable for you as a driver?",
     thoughtPlaceholder: "",
-    hasOtherOption: true,
-    options: [
-      "10% or less",
-      "15%",
-      "20%",
-      "25%",
-      "30% (current industry standard)",
-    ],
+    options: [],
+    isTextInput: true,
+    textInputPlaceholder: "e.g. 15",
   },
 
-  // Section 6: Additional Feedback
+  // ─── Section 6: Additional Feedback ───
   {
     id: "vehicleOwnershipImportance",
-    number: "16",
+    number: "13",
     title: "Vehicle Ownership Goal",
     section: "Additional Feedback",
     prompt: "How important is vehicle ownership to you as a long-term goal?",
@@ -290,7 +338,7 @@ const questions: Question[] = [
   },
   {
     id: "evTransitionSupport",
-    number: "17",
+    number: "14",
     title: "EV Transition Support",
     section: "Additional Feedback",
     prompt:
@@ -310,7 +358,7 @@ const questions: Question[] = [
   },
   {
     id: "additionalComments",
-    number: "18",
+    number: "15",
     title: "Additional Comments",
     section: "Additional Feedback",
     prompt: "Any additional comments or suggestions for Wheelers?",
@@ -336,6 +384,9 @@ const emptyThoughts: QuestionThoughts = {
   evEarningsBeliefs: "",
   leaseWillingness: "",
   leaseRejectionReason: "",
+  planningToJoin: "",
+  referralContact: "",
+  moreInfoNeeded: "",
   platformPainPoints: "",
   fairCommission: "",
   vehicleOwnershipImportance: "",
@@ -360,8 +411,11 @@ const initialForm: FormState = {
   evEarningsBeliefs: [],
   leaseWillingness: [],
   leaseRejectionReason: [],
+  planningToJoin: [],
+  referralContact: "",
+  moreInfoNeeded: [],
   platformPainPoints: [],
-  fairCommission: [],
+  fairCommission: "",
   vehicleOwnershipImportance: [],
   evTransitionSupport: [],
   additionalComments: "",
@@ -422,6 +476,13 @@ function TooltipIcon({ text }: { text: string }) {
   );
 }
 
+/* ── free-text field keys ────────────────────────────────── */
+
+type FreeTextField =
+  | "sweetSpotArea"
+  | "additionalComments"
+  | "referralContact";
+
 /* ── component ───────────────────────────────────────────── */
 
 export default function DriversPage() {
@@ -451,15 +512,19 @@ export default function DriversPage() {
     }));
   }
 
-  function updateFreeTextField(
-    field: "sweetSpotArea" | "additionalComments",
-    value: string,
-  ) {
+  function updateFreeTextField(field: FreeTextField, value: string) {
     const limitedValue = limitToWords(value, MAX_WORDS);
 
     setForm((current) => ({
       ...current,
       [field]: limitedValue,
+    }));
+  }
+
+  function updateDirectTextField(field: "fairCommission", value: string) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
     }));
   }
 
@@ -597,6 +662,14 @@ export default function DriversPage() {
       return;
     }
 
+    if (!form.phone.trim()) {
+      setStatus({
+        type: "error",
+        message: "Please enter your phone number before submitting.",
+      });
+      return;
+    }
+
     if (!form.allowContact) {
       setStatus({
         type: "error",
@@ -609,6 +682,7 @@ export default function DriversPage() {
     // Validate all visible questions with options are answered
     for (const question of visibleQuestions) {
       if (question.freeTextOnly) continue;
+      if (question.isTextInput) continue;
 
       const selections = form[question.id];
 
@@ -735,7 +809,7 @@ export default function DriversPage() {
             </label>
 
             <label className="waitlist-field waitlist-field-full">
-              <span>Phone number</span>
+              <span>{requiredLabel("Phone number")}</span>
 
               <input
                 type="tel"
@@ -745,6 +819,7 @@ export default function DriversPage() {
                   updateTextField("phone", event.target.value)
                 }
                 placeholder="+234..."
+                required
               />
             </label>
           </div>
@@ -759,35 +834,42 @@ export default function DriversPage() {
                 )}
 
                 {section.questions.map((question) => {
-                  const selections: string[] = form[question.id] as string[];
+                  const selections: string[] = form[
+                    question.id
+                  ] as string[];
                   const isOtherSelected =
                     Array.isArray(selections) &&
                     selections.some((s) => s.startsWith("Other"));
 
+                  /* ── free text only ─────────────────────── */
                   if (question.freeTextOnly) {
-                    const freeTextField = question.id as
-                      | "sweetSpotArea"
-                      | "additionalComments";
-                    const freeTextValue =
-                      form[freeTextField] as string;
+                    const freeTextField =
+                      question.id as FreeTextField;
+                    const freeTextValue = form[
+                      freeTextField
+                    ] as string;
                     const wordCount = countWords(freeTextValue);
 
                     return (
                       <fieldset
-                        className="question-card"
+                        className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
                         key={question.id}
                       >
                         <div className="question-top">
-                          <span className="question-number mono">
-                            {question.number}
-                          </span>
+                          {question.number && (
+                            <span className="question-number mono">
+                              {question.number}
+                            </span>
+                          )}
 
                           <div>
                             <legend className="question-legend">
                               <span>{question.title}</span>
 
                               {question.tooltip && (
-                                <TooltipIcon text={question.tooltip} />
+                                <TooltipIcon
+                                  text={question.tooltip}
+                                />
                               )}
                             </legend>
 
@@ -805,7 +887,9 @@ export default function DriversPage() {
                                 event.target.value,
                               )
                             }
-                            placeholder={question.thoughtPlaceholder}
+                            placeholder={
+                              question.thoughtPlaceholder
+                            }
                             rows={4}
                           />
 
@@ -817,19 +901,84 @@ export default function DriversPage() {
                     );
                   }
 
+                  /* ── text input (e.g. fair commission %) ── */
+                  if (question.isTextInput) {
+                    const textValue = form[
+                      question.id as keyof FormState
+                    ] as string;
+
+                    return (
+                      <fieldset
+                        className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
+                        key={question.id}
+                      >
+                        <div className="question-top">
+                          {question.number && (
+                            <span className="question-number mono">
+                              {question.number}
+                            </span>
+                          )}
+
+                          <div>
+                            <legend className="question-legend">
+                              <span>{question.title}</span>
+
+                              {question.tooltip && (
+                                <TooltipIcon
+                                  text={question.tooltip}
+                                />
+                              )}
+                            </legend>
+
+                            <p>{question.prompt}</p>
+                          </div>
+                        </div>
+
+                        <label className="waitlist-field">
+                          <div className="drivers-percent-input">
+                            <input
+                              type="number"
+                              name={question.id}
+                              min="0"
+                              max="100"
+                              value={textValue}
+                              onChange={(event) =>
+                                updateDirectTextField(
+                                  question.id as "fairCommission",
+                                  event.target.value,
+                                )
+                              }
+                              placeholder={
+                                question.textInputPlaceholder ??
+                                ""
+                              }
+                            />
+
+                            <span className="drivers-percent-sign">
+                              %
+                            </span>
+                          </div>
+                        </label>
+                      </fieldset>
+                    );
+                  }
+
+                  /* ── standard option question ──────────── */
                   const thoughtValue =
                     form.questionThoughts[question.id];
                   const wordCount = countWords(thoughtValue);
 
                   return (
                     <fieldset
-                      className="question-card"
+                      className={`question-card ${question.isSub ? "question-card--sub" : ""}`}
                       key={question.id}
                     >
                       <div className="question-top">
-                        <span className="question-number mono">
-                          {question.number}
-                        </span>
+                        {question.number && (
+                          <span className="question-number mono">
+                            {question.number}
+                          </span>
+                        )}
 
                         <div>
                           <legend className="question-legend">
@@ -838,7 +987,9 @@ export default function DriversPage() {
                             </span>
 
                             {question.tooltip && (
-                              <TooltipIcon text={question.tooltip} />
+                              <TooltipIcon
+                                text={question.tooltip}
+                              />
                             )}
                           </legend>
 
@@ -849,9 +1000,10 @@ export default function DriversPage() {
                       <div className="option-list">
                         {question.options.map(
                           (option, optionIndex) => {
-                            const checked = Array.isArray(selections)
-                              ? selections.includes(option)
-                              : false;
+                            const checked =
+                              Array.isArray(selections)
+                                ? selections.includes(option)
+                                : false;
                             const inputId = `${question.id}-${optionIndex}`;
                             const isMulti =
                               question.multiSelect ?? false;
@@ -874,7 +1026,9 @@ export default function DriversPage() {
                                 <input
                                   id={inputId}
                                   type={
-                                    isMulti ? "checkbox" : "radio"
+                                    isMulti
+                                      ? "checkbox"
+                                      : "radio"
                                   }
                                   name={question.id}
                                   value={option}
@@ -908,7 +1062,9 @@ export default function DriversPage() {
                           <>
                             <label
                               className={`option-item ${
-                                isOtherSelected ? "selected" : ""
+                                isOtherSelected
+                                  ? "selected"
+                                  : ""
                               }`}
                             >
                               <input
@@ -945,17 +1101,24 @@ export default function DriversPage() {
                                   type="text"
                                   placeholder="Please specify..."
                                   value={
-                                    otherValues[question.id] ?? ""
+                                    otherValues[
+                                      question.id
+                                    ] ?? ""
                                   }
                                   onChange={(event) => {
-                                    setOtherValues((current) => ({
-                                      ...current,
-                                      [question.id]:
-                                        event.target.value,
-                                    }));
+                                    setOtherValues(
+                                      (current) => ({
+                                        ...current,
+                                        [question.id]:
+                                          event.target
+                                            .value,
+                                      }),
+                                    );
                                   }}
                                   onBlur={() =>
-                                    updateOtherText(question.id)
+                                    updateOtherText(
+                                      question.id,
+                                    )
                                   }
                                 />
                               </label>
@@ -975,7 +1138,9 @@ export default function DriversPage() {
                                 event.target.value,
                               )
                             }
-                            placeholder={question.thoughtPlaceholder}
+                            placeholder={
+                              question.thoughtPlaceholder
+                            }
                             rows={4}
                           />
 

@@ -4544,6 +4544,17 @@ hero-phone-intro {
   margin-top: 0;
 }
 
+/* Sub-questions: no number badge, indented left border */
+.waitlist-page .question-card--sub {
+  margin-left: 22px;
+  border-left: 4px solid var(--or);
+  background: var(--cream2);
+}
+
+.waitlist-page .question-card--sub .question-top {
+  gap: 0;
+}
+
 .waitlist-page .drivers-other-field {
   margin-top: 8px;
   margin-left: 33px;
@@ -4553,8 +4564,51 @@ hero-phone-intro {
   font-size: 14px;
 }
 
+/* Percent text input for fair commission */
+.waitlist-page .drivers-percent-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 180px;
+}
+
+.waitlist-page .drivers-percent-input input {
+  width: 100%;
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  background: var(--cream);
+  padding: 14px 15px;
+  color: var(--bk);
+  outline: none;
+  box-shadow: 3px 3px 0 var(--bk);
+  font-size: 16px;
+  -moz-appearance: textfield;
+}
+
+.waitlist-page .drivers-percent-input input::-webkit-inner-spin-button,
+.waitlist-page .drivers-percent-input input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.waitlist-page .drivers-percent-input input:focus {
+  outline: 2px solid var(--or);
+  outline-offset: 2px;
+}
+
+.waitlist-page .drivers-percent-sign {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--bk);
+}
+
 @media (max-width: 768px) {
   .waitlist-page .drivers-other-field {
     margin-left: 0;
+  }
+
+  .waitlist-page .question-card--sub {
+    margin-left: 10px;
   }
 }

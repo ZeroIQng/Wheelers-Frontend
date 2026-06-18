@@ -24,6 +24,9 @@ type DriverPayload = {
   evEarningsBeliefs?: unknown;
   leaseWillingness?: unknown;
   leaseRejectionReason?: unknown;
+  planningToJoin?: unknown;
+  referralContact?: unknown;
+  moreInfoNeeded?: unknown;
   platformPainPoints?: unknown;
   fairCommission?: unknown;
   vehicleOwnershipImportance?: unknown;
@@ -61,7 +64,7 @@ function isValidEmail(value: string) {
 
 function readRequiredTextField(
   payload: DriverPayload,
-  field: "name" | "email",
+  field: "name" | "email" | "phone",
 ) {
   const value = payload[field];
 
@@ -74,7 +77,7 @@ function readRequiredTextField(
 
 function readOptionalTextField(
   payload: DriverPayload,
-  field: "phone" | "sweetSpotArea" | "additionalComments",
+  field: "sweetSpotArea" | "additionalComments" | "referralContact" | "fairCommission",
 ) {
   const value = payload[field];
 
@@ -111,6 +114,9 @@ function readQuestionThoughts(payload: DriverPayload) {
     evEarningsBeliefs: "",
     leaseWillingness: "",
     leaseRejectionReason: "",
+    planningToJoin: "",
+    referralContact: "",
+    moreInfoNeeded: "",
     platformPainPoints: "",
     fairCommission: "",
     vehicleOwnershipImportance: "",
@@ -138,10 +144,20 @@ function readQuestionThoughts(payload: DriverPayload) {
 
 /* ── conditional visibility logic (mirrors client) ─────── */
 
+const TEXT_ONLY_FIELDS: DriverQuestionId[] = [
+  "sweetSpotArea",
+  "additionalComments",
+  "referralContact",
+  "fairCommission",
+];
+
 function isQuestionRequired(
   field: DriverQuestionId,
   payload: DriverPayload,
 ): boolean {
+  // Text-only and text-input fields are never validated as selections
+  if (TEXT_ONLY_FIELDS.includes(field)) return false;
+
   const currentlyDriving = isNonEmptyStringArray(payload.currentlyDriving)
     ? payload.currentlyDriving
     : [];
@@ -153,6 +169,9 @@ function isQuestionRequired(
     : [];
   const leaseWillingness = isNonEmptyStringArray(payload.leaseWillingness)
     ? payload.leaseWillingness
+    : [];
+  const planningToJoin = isNonEmptyStringArray(payload.planningToJoin)
+    ? payload.planningToJoin
     : [];
 
   switch (field) {
@@ -178,10 +197,10 @@ function isQuestionRequired(
     case "leaseRejectionReason":
       return leaseWillingness.includes("No");
 
-    // Free text fields are never required
-    case "sweetSpotArea":
-    case "additionalComments":
-      return false;
+    case "moreInfoNeeded":
+      return planningToJoin.includes(
+        "Not sure — I need more information",
+      );
 
     // All other questions are always required
     default:
@@ -200,10 +219,18 @@ export async function POST(request: Request) {
 
   const name = readRequiredTextField(payload, "name");
   const emailValue = readRequiredTextField(payload, "email");
+  const phone = readRequiredTextField(payload, "phone");
 
   if (!name || !emailValue) {
     return Response.json(
       { message: "Please enter your name and email before submitting." },
+      { status: 400 },
+    );
+  }
+
+  if (!phone) {
+    return Response.json(
+      { message: "Please enter your phone number before submitting." },
       { status: 400 },
     );
   }
@@ -219,7 +246,7 @@ export async function POST(request: Request) {
 
   // Validate required selection fields
   for (const field of driverQuestionIds) {
-    if (field === "sweetSpotArea" || field === "additionalComments") continue;
+    if (TEXT_ONLY_FIELDS.includes(field)) continue;
 
     if (!isQuestionRequired(field, payload)) continue;
 
@@ -245,18 +272,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const phone = readOptionalTextField(payload, "phone");
   const sweetSpotArea = readOptionalTextField(payload, "sweetSpotArea");
   const additionalComments = readOptionalTextField(
     payload,
     "additionalComments",
   );
+  const referralContact = readOptionalTextField(payload, "referralContact");
+  const fairCommission = readOptionalTextField(payload, "fairCommission");
   const questionThoughts = readQuestionThoughts(payload);
 
-  // Build selection records (return empty arrays for conditional questions not shown)
+  // Build selection records
   const selections = Object.fromEntries(
     driverQuestionIds
-      .filter((f) => f !== "sweetSpotArea" && f !== "additionalComments")
+      .filter((f) => !TEXT_ONLY_FIELDS.includes(f))
       .map((field) => [field, readSelectionField(payload, field)]),
   ) as Record<string, string[]>;
 
@@ -278,8 +306,11 @@ export async function POST(request: Request) {
       evEarningsBeliefs: selections.evEarningsBeliefs ?? [],
       leaseWillingness: selections.leaseWillingness ?? [],
       leaseRejectionReason: selections.leaseRejectionReason ?? [],
+      planningToJoin: selections.planningToJoin ?? [],
+      referralContact,
+      moreInfoNeeded: selections.moreInfoNeeded ?? [],
       platformPainPoints: selections.platformPainPoints ?? [],
-      fairCommission: selections.fairCommission ?? [],
+      fairCommission,
       vehicleOwnershipImportance: selections.vehicleOwnershipImportance ?? [],
       evTransitionSupport: selections.evTransitionSupport ?? [],
       additionalComments,

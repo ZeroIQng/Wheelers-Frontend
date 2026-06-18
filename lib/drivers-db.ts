@@ -43,8 +43,11 @@ export async function ensureDriversTable() {
           ev_earnings_beliefs JSONB NOT NULL DEFAULT '[]'::jsonb,
           lease_willingness JSONB NOT NULL DEFAULT '[]'::jsonb,
           lease_rejection_reason JSONB NOT NULL DEFAULT '[]'::jsonb,
+          planning_to_join JSONB NOT NULL DEFAULT '[]'::jsonb,
+          referral_contact TEXT NOT NULL DEFAULT '',
+          more_info_needed JSONB NOT NULL DEFAULT '[]'::jsonb,
           platform_pain_points JSONB NOT NULL DEFAULT '[]'::jsonb,
-          fair_commission JSONB NOT NULL DEFAULT '[]'::jsonb,
+          fair_commission TEXT NOT NULL DEFAULT '',
           vehicle_ownership_importance JSONB NOT NULL DEFAULT '[]'::jsonb,
           ev_transition_support JSONB NOT NULL DEFAULT '[]'::jsonb,
           additional_comments TEXT NOT NULL DEFAULT '',
@@ -76,8 +79,11 @@ export async function insertDriverSubmission(submission: {
   evEarningsBeliefs: string[];
   leaseWillingness: string[];
   leaseRejectionReason: string[];
+  planningToJoin: string[];
+  referralContact: string;
+  moreInfoNeeded: string[];
   platformPainPoints: string[];
-  fairCommission: string[];
+  fairCommission: string;
   vehicleOwnershipImportance: string[];
   evTransitionSupport: string[];
   additionalComments: string;
@@ -105,6 +111,9 @@ export async function insertDriverSubmission(submission: {
         ev_earnings_beliefs,
         lease_willingness,
         lease_rejection_reason,
+        planning_to_join,
+        referral_contact,
+        more_info_needed,
         platform_pain_points,
         fair_commission,
         vehicle_ownership_importance,
@@ -119,10 +128,11 @@ export async function insertDriverSubmission(submission: {
         $9::jsonb, $10::jsonb, $11::jsonb, $12::jsonb,
         $13,
         $14::jsonb, $15::jsonb, $16::jsonb,
-        $17::jsonb, $18::jsonb, $19::jsonb, $20::jsonb,
-        $21,
-        $22::jsonb,
-        $23
+        $17::jsonb, $18, $19::jsonb,
+        $20::jsonb, $21, $22::jsonb, $23::jsonb,
+        $24,
+        $25::jsonb,
+        $26
       )
     `,
     [
@@ -142,8 +152,11 @@ export async function insertDriverSubmission(submission: {
       JSON.stringify(submission.evEarningsBeliefs),
       JSON.stringify(submission.leaseWillingness),
       JSON.stringify(submission.leaseRejectionReason),
+      JSON.stringify(submission.planningToJoin),
+      submission.referralContact,
+      JSON.stringify(submission.moreInfoNeeded),
       JSON.stringify(submission.platformPainPoints),
-      JSON.stringify(submission.fairCommission),
+      submission.fairCommission,
       JSON.stringify(submission.vehicleOwnershipImportance),
       JSON.stringify(submission.evTransitionSupport),
       submission.additionalComments,
