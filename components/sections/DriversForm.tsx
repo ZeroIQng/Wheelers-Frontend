@@ -377,6 +377,35 @@ const questions: Question[] = [
     showWhen: isNotActive,
   },
 
+  // No path → Yes on planning → platform sub-questions (mirrors Yes path Q1 subs)
+  {
+    id: "platforms",
+    renderKey: "platforms-no",
+    title: "Which Platforms Would You Drive For?",
+    section: "Getting Started",
+    prompt: "Which ride-hailing platforms are you considering?",
+    thoughtPlaceholder: "",
+    multiSelect: true,
+    maxSelect: 5,
+    hasOtherOption: true,
+    options: ["Uber", "Bolt", "InDriver", "LagRide"],
+    showWhen: (form) =>
+      isNotActive(form) && form.planningToJoin.includes("Yes"),
+    isSub: true,
+  },
+  {
+    id: "mostUsedPlatform",
+    renderKey: "mostUsedPlatform-no",
+    title: "Preferred Platform",
+    section: "Getting Started",
+    prompt: "Which platform would you prefer to use the most?",
+    thoughtPlaceholder: "",
+    options: ["Uber", "Bolt", "InDriver", "LagRide"],
+    showWhen: (form) =>
+      isNotActive(form) && form.planningToJoin.includes("Yes"),
+    isSub: true,
+  },
+
   // No path → Yes on planning → vehicle question
   {
     id: "ownsVehicle",
@@ -388,6 +417,25 @@ const questions: Question[] = [
     options: ["Yes", "No — I want to lease a vehicle"],
     showWhen: (form) =>
       isNotActive(form) && form.planningToJoin.includes("Yes"),
+    isSub: true,
+  },
+  {
+    id: "vehicleArrangement",
+    renderKey: "vehicleArrangement-no",
+    title: "Current Vehicle Arrangement",
+    section: "Getting Started",
+    prompt: "What arrangement are you currently using or planning to use?",
+    thoughtPlaceholder: "",
+    hasOtherOption: true,
+    options: [
+      "Daily/weekly vehicle rental (hire purchase)",
+      "Monthly lease from fleet owner",
+      "Driving for a fleet owner (salary/commission-based)",
+    ],
+    showWhen: (form) =>
+      isNotActive(form) &&
+      form.planningToJoin.includes("Yes") &&
+      form.ownsVehicle.includes("No — I want to lease a vehicle"),
     isSub: true,
   },
   {

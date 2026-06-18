@@ -181,6 +181,11 @@ function isQuestionRequired(
     // ── Yes-path only ──
     case "platforms":
     case "mostUsedPlatform":
+      return (
+        isActive ||
+        (isNotActive && planningToJoin.includes("Yes"))
+      );
+
     case "dailyRides":
     case "weeklyRevenue":
     case "weeklyProfit":
@@ -193,8 +198,11 @@ function isQuestionRequired(
 
     case "vehicleArrangement":
       return (
-        isActive &&
-        ownsVehicle.includes("No — I want to lease a vehicle")
+        (isActive &&
+          ownsVehicle.includes("No — I want to lease a vehicle")) ||
+        (isNotActive &&
+          planningToJoin.includes("Yes") &&
+          ownsVehicle.includes("No — I want to lease a vehicle"))
       );
 
     // ── Shared fields (appear in both paths) ──
