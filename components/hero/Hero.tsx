@@ -8,6 +8,12 @@ export default function Hero() {
 
       <div className="hero-inner">
         <div className="hero-copy">
+          <div className="hyge-banner">
+            <p className="hyge-banner-text">
+              Wheelers is a product of <strong>HYGE Innovations</strong>
+            </p>
+          </div>
+
           <div className="hero-tag">
             <div className="hero-tag-dot" />
             Web3 Ride-Hailing Platform
