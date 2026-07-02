@@ -70,7 +70,7 @@ export default function Footer() {
 
       <div className="footer-hyge">
         <p>
-          A product of <strong>HYGE Innovations</strong>
+          A product of <strong>HYGE Innovations Limited</strong>
         </p>
       </div>
     </footer>

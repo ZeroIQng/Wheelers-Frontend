@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="hero-copy">
           <div className="hyge-badge">
             <p className="hyge-badge-text">
-              A product of <strong>HYGE Innovations</strong>
+              A product of <strong>HYGE Innovations Limited</strong>
             </p>
           </div>
 
