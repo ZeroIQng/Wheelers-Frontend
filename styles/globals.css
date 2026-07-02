@@ -2005,6 +2005,46 @@ hero-phone-intro {
 }
 .social-btn:hover { border-color: var(--or); color: var(--or); box-shadow: 3px 3px 0 var(--or); }
 
+/* HYGE BANNER (top of page) */
+.hyge-banner {
+  width: 100%;
+  background: var(--or);
+  padding: 10px 16px;
+  text-align: center;
+}
+.hyge-banner-text {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #000;
+  margin: 0;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.hyge-banner-text strong {
+  color: #000;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* HYGE FOOTER ATTRIBUTION */
+.footer-hyge {
+  text-align: center;
+  padding: 20px 0 8px;
+  margin-top: 20px;
+  border-top: 1px solid #2a2a2a;
+}
+.footer-hyge p {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #aaa;
+  margin: 0;
+}
+.footer-hyge strong {
+  color: var(--or);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 /* PRIVACY PAGE */
 .privacy-page {
   min-height: 100vh;

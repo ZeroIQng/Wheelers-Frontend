@@ -32,6 +32,11 @@ export default function HomePageClient() {
 
   return (
     <main className="page-shell">
+      <div className="hyge-banner">
+        <p className="hyge-banner-text">
+          Wheelers is a product of <strong>HYGE Innovations</strong>
+        </p>
+      </div>
       <Navbar />
       <Ticker />
       <Hero />

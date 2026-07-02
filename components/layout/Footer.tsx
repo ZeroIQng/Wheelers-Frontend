@@ -67,6 +67,12 @@ export default function Footer() {
           ))}
         </div>
       </div>
+
+      <div className="footer-hyge">
+        <p>
+          Wheelers is a product of <strong>HYGE Innovations</strong>
+        </p>
+      </div>
     </footer>
   );
 }
