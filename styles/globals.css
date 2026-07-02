@@ -2005,27 +2005,29 @@ hero-phone-intro {
 }
 .social-btn:hover { border-color: var(--or); color: var(--or); box-shadow: 3px 3px 0 var(--or); }
 
-/* HYGE BANNER (hero section) */
-.hyge-banner {
+/* HYGE BADGE (hero section) */
+.hyge-badge {
   display: inline-flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 100px;
-  padding: 8px 20px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding: 8px 18px;
+  background: var(--or);
+  border: var(--bd);
+  border-radius: var(--rd-sm);
+  box-shadow: var(--sh);
+  width: fit-content;
 }
-.hyge-banner-text {
+.hyge-badge-text {
   font-family: var(--mono);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--bk);
   margin: 0;
-  letter-spacing: 0.5px;
-  font-weight: 500;
 }
-.hyge-banner-text strong {
-  color: var(--or);
+.hyge-badge-text strong {
   font-weight: 800;
+  text-transform: uppercase;
 }
 
 /* HYGE FOOTER ATTRIBUTION */

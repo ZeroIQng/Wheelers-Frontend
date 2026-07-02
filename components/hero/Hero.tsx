@@ -8,8 +8,8 @@ export default function Hero() {
 
       <div className="hero-inner">
         <div className="hero-copy">
-          <div className="hyge-banner">
-            <p className="hyge-banner-text">
+          <div className="hyge-badge">
+            <p className="hyge-badge-text">
               Wheelers is a product of <strong>HYGE Innovations</strong>
             </p>
           </div>
