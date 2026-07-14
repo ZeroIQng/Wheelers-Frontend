@@ -69,7 +69,7 @@ export default function AdminRidersPage() {
   }
 
   if (loading) {
-    return <div className="admin-loading">Loading rider data...</div>;
+    return <div className="admin-spinner-wrap"><div className="admin-spinner"></div></div>;
   }
 
   if (!analytics) {

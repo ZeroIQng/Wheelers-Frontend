@@ -11,26 +11,70 @@ interface AdminUser {
   name: string;
 }
 
+function Icon({ name }: { name: string }) {
+  const props = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+
+  switch (name) {
+    case "dashboard":
+      return (
+        <svg {...props}>
+          <rect x="3" y="3" width="7" height="9" rx="1" />
+          <rect x="14" y="3" width="7" height="5" rx="1" />
+          <rect x="14" y="12" width="7" height="9" rx="1" />
+          <rect x="3" y="16" width="7" height="5" rx="1" />
+        </svg>
+      );
+    case "drivers":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="8" r="4" />
+          <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          <path d="M21 21v-2a4 4 0 0 0-3-3.87" />
+        </svg>
+      );
+    case "riders":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="8" r="4" />
+          <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+      );
+    case "rides":
+      return (
+        <svg {...props}>
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
+      );
+    case "logout":
+      return (
+        <svg {...props}>
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
 const NAV_ITEMS = [
-  {
-    section: "Overview",
-    items: [
-      { href: "/admin/dashboard", label: "Dashboard", icon: "📊" },
-    ],
-  },
-  {
-    section: "Management",
-    items: [
-      { href: "/admin/dashboard/drivers", label: "Drivers", icon: "🚗" },
-      { href: "/admin/dashboard/riders", label: "Riders", icon: "👤" },
-    ],
-  },
-  {
-    section: "Insights",
-    items: [
-      { href: "/admin/dashboard/rides", label: "Recent Rides", icon: "🛣️" },
-    ],
-  },
+  { href: "/admin/dashboard", label: "Dashboard", icon: "dashboard" },
+  { href: "/admin/dashboard/drivers", label: "Drivers", icon: "drivers" },
+  { href: "/admin/dashboard/riders", label: "Riders", icon: "riders" },
+  { href: "/admin/dashboard/rides", label: "Rides", icon: "rides" },
 ];
 
 export default function AdminPanelLayout({
@@ -71,53 +115,49 @@ export default function AdminPanelLayout({
   if (!ready) {
     return (
       <div className="admin-login-page">
-        <p style={{ color: "#786F68" }}>Loading...</p>
+        <div className="admin-spinner-wrap">
+          <div className="admin-spinner"></div>
+        </div>
       </div>
     );
   }
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href));
 
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <div className="admin-sidebar-logo">
           <h1>Wheelers</h1>
-          <p>Admin Panel</p>
         </div>
 
         <nav className="admin-sidebar-nav">
-          {NAV_ITEMS.map((section) => (
-            <div key={section.section}>
-              <p className="admin-sidebar-section">{section.section}</p>
-              {section.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`admin-nav-link ${
-                    pathname === item.href ? "active" : ""
-                  }`}
-                >
-                  <span className="admin-nav-icon">{item.icon}</span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </div>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`admin-nav-link ${isActive(item.href) ? "active" : ""}`}
+            >
+              <Icon name={item.icon} />
+              <span>{item.label}</span>
+            </Link>
           ))}
         </nav>
 
         <div className="admin-sidebar-footer">
-          <div
-            style={{
-              padding: "8px 12px",
-              marginBottom: 8,
-              fontSize: 13,
-              color: "rgba(255,255,255,0.6)",
-            }}
-          >
-            Signed in as <strong style={{ color: "#fff" }}>{admin?.name}</strong>
+          <div className="admin-sidebar-user">
+            <div className="admin-avatar">
+              {admin?.name?.charAt(0).toUpperCase()}
+            </div>
+            <div className="admin-user-info">
+              <span className="admin-user-name">{admin?.name}</span>
+              <span className="admin-user-role">Admin</span>
+            </div>
           </div>
           <button onClick={handleLogout} className="admin-logout-btn">
-            <span className="admin-nav-icon">🚪</span>
-            <span>Sign Out</span>
+            <Icon name="logout" />
+            <span>Sign out</span>
           </button>
         </div>
       </aside>

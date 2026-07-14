@@ -96,7 +96,7 @@ export default function AdminDriversPage() {
   }
 
   if (loading) {
-    return <div className="admin-loading">Loading driver data...</div>;
+    return <div className="admin-spinner-wrap"><div className="admin-spinner"></div></div>;
   }
 
   return (

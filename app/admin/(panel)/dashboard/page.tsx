@@ -49,7 +49,7 @@ export default function AdminDashboardPage() {
   }
 
   if (loading) {
-    return <div className="admin-loading">Loading dashboard...</div>;
+    return <div className="admin-spinner-wrap"><div className="admin-spinner"></div></div>;
   }
 
   if (!stats) {
@@ -63,7 +63,8 @@ export default function AdminDashboardPage() {
         <p>Platform overview and key metrics</p>
       </div>
 
-      <div className="admin-stats-grid">
+      <p className="admin-section-label">Users</p>
+      <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
         <div className="admin-stat-card">
           <p className="label">Total Users</p>
           <p className="value">{stats.totalUsers.toLocaleString()}</p>
@@ -76,6 +77,10 @@ export default function AdminDashboardPage() {
           <p className="label">Total Drivers</p>
           <p className="value">{stats.totalDrivers.toLocaleString()}</p>
         </div>
+      </div>
+
+      <p className="admin-section-label">Drivers</p>
+      <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
         <div className="admin-stat-card">
           <p className="label">Approved Drivers</p>
           <p className="value green">{stats.approvedDrivers.toLocaleString()}</p>
@@ -90,7 +95,8 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      <div className="admin-stats-grid">
+      <p className="admin-section-label">Rides</p>
+      <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
         <div className="admin-stat-card">
           <p className="label">Total Rides</p>
           <p className="value">{stats.totalRides.toLocaleString()}</p>
@@ -107,7 +113,8 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      <div className="admin-stats-grid">
+      <p className="admin-section-label">Revenue</p>
+      <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
         <div className="admin-stat-card">
           <p className="label">Total Revenue</p>
           <p className="value">{formatNaira(stats.totalRevenueNgn)}</p>

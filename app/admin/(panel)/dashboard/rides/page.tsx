@@ -73,7 +73,7 @@ export default function AdminRecentRidesPage() {
   }
 
   if (loading) {
-    return <div className="admin-loading">Loading rides...</div>;
+    return <div className="admin-spinner-wrap"><div className="admin-spinner"></div></div>;
   }
 
   return (
