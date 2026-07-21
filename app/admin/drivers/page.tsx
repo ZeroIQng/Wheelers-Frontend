@@ -16,7 +16,7 @@ interface DriverSubmission {
   submittedAt: string | null;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://https://app.wheelersng.com";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "https://app.wheelersng.com";
 
 export default function AdminDriversPage() {
   const [drivers, setDrivers] = useState<DriverSubmission[]>([]);
