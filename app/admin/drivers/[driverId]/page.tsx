@@ -24,7 +24,7 @@ interface DriverDetail {
   };
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://http://app.wheelersng.com";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://https://app.wheelersng.com";
 
 export default function DriverReviewPage() {
   const params = useParams();
