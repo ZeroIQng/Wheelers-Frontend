@@ -28,6 +28,7 @@ interface DriverDetail {
     ninImageUrl: string | null;
     licenceImageUrl: string | null;
     selfieUrl: string | null;
+    vehicleImageUrls: string[];
     rejectionReason: string | null;
     rejectedFields: string[];
     fieldStatuses: Record<string, FieldStatus>;
@@ -372,6 +373,40 @@ export default function DriverReviewPage() {
                     <div>
                       <strong>Plate:</strong> {sub.vehiclePlate || "—"}
                     </div>
+                    {sub.vehicleImageUrls?.length > 0 && (
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+                          gap: 8,
+                          marginTop: 12,
+                        }}
+                      >
+                        {sub.vehicleImageUrls.map((url, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              border: "2px solid #E8DDD3",
+                              borderRadius: 8,
+                              overflow: "hidden",
+                            }}
+                          >
+                            <img
+                              src={url}
+                              alt={`Vehicle photo ${i + 1}`}
+                              style={{
+                                width: "100%",
+                                height: 120,
+                                objectFit: "cover",
+                                display: "block",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => window.open(url, "_blank")}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
